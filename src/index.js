@@ -7,10 +7,10 @@ import store from "./redux/store";
 import axios from "axios";
 import { Auth0Provider } from "@auth0/auth0-react";
 
-axios.defaults.baseURL = 'http://localhost:3001';
+// axios.defaults.baseURL = 'http://localhost:3001';
 // axios.defaults.baseURL = "https://back-programared-production.up.railway.app/"; //serrsua
 
-// axios.defaults.baseURL = "https://programared-back-production.up.railway.app"; // pumba
+axios.defaults.baseURL = "https://programared-back-production.up.railway.app"; // pumba
 
 
 
