@@ -1,0 +1,24 @@
+{
+    "personas": [
+      {
+        "name": "Ana García",
+        "email": "ana.garcia@example.com",
+        "image": "https://example.com/images/ana-garcia.jpg"
+      },
+      {
+        "name": "Pedro Rodriguez",
+        "email": "pedro.rodriguez@example.com",
+        "image": "https://example.com/images/pedro-rodriguez.jpg"
+      },
+      {
+        "name": "María López",
+        "email": "maria.lopez@example.com",
+        "image": "https://example.com/images/maria-lopez.jpg"
+      },
+      {
+        "name": "Juan Pérez",
+        "email": "juan.perez@example.com",
+        "image": "https://example.com/images/juan-perez.jpg"
+      }
+    ]
+}
