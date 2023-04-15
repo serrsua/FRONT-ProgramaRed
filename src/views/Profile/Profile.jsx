@@ -76,14 +76,13 @@ const Profile = ({ toggleDetails }) => {
         socialLinks: links,
       });
 
-      Swal.fire({
+      const result = await Swal.fire({
         icon: "success",
         title: "Link actualizado",
         text: data,
         showConfirmButton: true,
-      }).then((result) => {
-        if (result.isConfirmed) window.location.reload();
       });
+      if (result.isConfirmed) window.location.reload();
     }
   };
   const deleteLink = async () => {
