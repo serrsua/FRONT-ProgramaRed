@@ -235,7 +235,7 @@ const Profile = ({ toggleDetails }) => {
                   {!user.email && !formEmail ? (
                     <div className="flex items-center relative w-full h-full p-3 text-lg border font-medium border-none">
                       <p className="text-rose-600">Agrega tu correo</p>
-                      <button
+                      <span
                         className="absolute top-[-5px] right-[-38px] p-2 font-medium rounded-md bg-ligthGreen transition-all duration-500 hover:bg-mediumGreen hover:scale-110 "
                         onClick={() => {
                           setFormEmail(true);
@@ -255,7 +255,7 @@ const Profile = ({ toggleDetails }) => {
                             d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10"
                           />
                         </svg>
-                      </button>
+                      </span>
                     </div>
                   ) : (
                     <span>{user.email}</span>
@@ -293,14 +293,14 @@ const Profile = ({ toggleDetails }) => {
                 {!user.description &&
                 !formDescription &&
                 id === localStorage.getItem("id") ? (
-                  <button
+                  <span
                     className="p-2 m-4 self-center font-medium rounded-md bg-ligthGreen transition-all duration-500 hover:bg-mediumGreen hover:scale-130 "
                     onClick={() => {
                       setFormDescription(true);
                     }}
                   >
                     Agrega una descripción
-                  </button>
+                  </span>
                 ) : id !== localStorage.getItem("id") ? (
                   <div
                     className={`flex items-center w-full h-full p-3 text-lg border font-medium ${
@@ -342,7 +342,7 @@ const Profile = ({ toggleDetails }) => {
                 )}
 
                 {formDescription && (
-                  <form onSubmit={updateDescription}>
+                  <form>
                     <div className=" flex flex-col">
                       <textarea
                         onChange={(e) => {
@@ -354,9 +354,9 @@ const Profile = ({ toggleDetails }) => {
                         rows="5"
                         className=" resize-none bg-transparent border-2 border-cyan-700 text-blue-800 px-2 py-1 font-medium rounded-md focus:outline-2 focus:outline-blue-700"
                       ></textarea>
-                      <button className="p-2 m-4 self-center font-medium rounded-md bg-ligthGreen transition-all duration-500 hover:bg-mediumGreen hover:scale-110">
+                      <span onClick={()=> updateDescription()} className="p-2 m-4 self-center font-medium rounded-md bg-ligthGreen transition-all duration-500 hover:bg-mediumGreen hover:scale-110">
                         Actualizar
-                      </button>
+                      </span>
                     </div>
                   </form>
                 )}
