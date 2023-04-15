@@ -1,4 +1,4 @@
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { clearDetail, getPostByTag } from "../redux/actions";
 import person from "../images/person.png";
@@ -25,7 +25,7 @@ const PostDetail = ({ toggleDetails }) => {
   },[dispatch])
 
   return (
-    <div className="DIV_POSTDETAIL bg-greenGray rounded-lg p-4 shadow-shadowBlack min-w-90% flex flex-col justify-between h-3/4 m-0 absolute top-10 left-1/2 transform -translate-x-1/2 z-50">
+    <div className={`DIV_POSTDETAIL fixed bg-greenGray rounded-lg p-4 shadow-shadowBlack min-w-90% flex flex-col justify-between h-3/4 m-0  top-10 left-1/2 transform -translate-x-1/2 z-50`}>
       <div>
         <button
           className=" absolute right-1/2 top-2 bg-red-600 px-2 py-1 text-white font-bold rounded transition-all hover:scale-110 hover:bg-red-700 border border-black"
@@ -60,10 +60,10 @@ const PostDetail = ({ toggleDetails }) => {
           />
           {
             Number(post?.User?.id) === Number(localUser) && (
-              <>
-                <Edit />
+              <div onClick={toggleDetails} className="flex">
+                <Edit post={post} />
                 <Trash postId={post?.id} />
-              </>
+              </div>
             )
           }
         </div>

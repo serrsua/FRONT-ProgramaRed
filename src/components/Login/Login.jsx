@@ -30,8 +30,6 @@ const Login = () => {
     );
   };
 
-  console.log("FORM: ", form);
-
   const handleSubmit = async (e) => {
     try {
       e.preventDefault();

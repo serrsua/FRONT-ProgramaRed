@@ -380,7 +380,7 @@ const CreatePost = () => {
               Subir
             </button>
             <button
-              className=" text-gray-900 font-bold py-2 px-4 rounded bg-green-500 hover:bg-green-400"
+              className=" text-gray-900 font-bold py-2 px-4 rounded bg-stone-500 hover:bg-stone-400 hover:text-gray-800"
               type="button"
               onClick={clearForm}
             >

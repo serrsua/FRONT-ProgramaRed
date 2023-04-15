@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import SideBar from "../components/SideBar";
 import axios from "axios";
 import { useSelector } from "react-redux";
+import Swal from "sweetalert2";
 
 const Home = ({ toggleDetails }) => {
   const dispatch = useDispatch();
@@ -31,15 +32,7 @@ const Home = ({ toggleDetails }) => {
 
   const completePayment = async () => {
     try {
-      console.log(
-        {
-          paymentId: searchParams.get('payment_id'),
-          productTitle: "Subscripcion Premium",
-          price: 500 * 1.30,
-          userId: Number(localStorage.getItem('id')),
-          status: searchParams.get('status')
-        }
-      );
+      
       const res = await axios.post('/payments', {
         paymentId: searchParams.get('payment_id'),
         productTitle: "Subscripcion Premium",
@@ -48,7 +41,28 @@ const Home = ({ toggleDetails }) => {
         status: searchParams.get('status')
       })
       if (res.status === 200) {
-        setMessage(res.data)
+        const {data}= await axios.get(`/user/${localStorage.getItem('id')}`)
+        const response = await axios.post('/subcriptionsEmail', {
+          username:data.username, 
+          email:data.email 
+        })
+        if (response.status===200){
+          Swal.fire({
+            icon: "success",
+            title: res.data,
+            text: response.data,
+            showConfirmButton: true,
+          })
+        }else{
+          Swal.fire({
+            icon: "error",
+            title: res.data,
+            showConfirmButton: false,
+            timer: 2000,
+          })
+        }
+        searchParams.delete('status')
+        searchParams.delete('payment_id')
       }
     } catch (error) {
       console.log(error);

@@ -162,7 +162,7 @@ const EditPost = () => {
     <div className="DIV_CREATEPOST block my-8 px-4 w-full">
       <div className="max-w-[600px] mx-auto p-6 bg-white rounded-md shadow-md w-full">
         <h2 className="text-xl font-bold text-green-700 mb-6">
-          Estás creando un post
+          Edita tu post
         </h2>
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
@@ -386,7 +386,7 @@ const EditPost = () => {
               Subir
             </button>
             <button
-              className=" text-gray-900 font-bold py-2 px-4 rounded bg-green-500 hover:bg-green-400"
+              className=" text-gray-100 font-bold py-2 px-4 rounded bg-stone-500 hover:bg-stone-400 hover:text-gray-800"
               type="button"
               onClick={clearForm}
             >
