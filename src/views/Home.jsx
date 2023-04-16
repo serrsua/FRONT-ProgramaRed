@@ -7,14 +7,30 @@ import SideBar from "../components/SideBar";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import Swal from "sweetalert2";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const Home = ({ toggleDetails }) => {
   const dispatch = useDispatch();
   const [searchParams, _] = useSearchParams()
   // const [initialization, setInitialization] = useState({ preferenceId: '' })
   const [message, setMessage] = useState("")
-
+  const { user } = useAuth0();
+  const [idUser, setIdUser] = useState("");
   // const posts = useSelector(state => state.posts)
+
+  useEffect(() => {
+    if (!localStorage.getItem("id")){
+    async function fetchData() {
+      try {
+       let { data } = await axios(`/user/username/${user.nickname}`);
+       setIdUser(data[0].id);
+      }catch(e){
+        console.log(e)
+      } 
+    }
+    fetchData();
+    }
+  },[user])
 
   useEffect(() => {
     dispatch(getAllPosts()); 
@@ -25,10 +41,19 @@ const Home = ({ toggleDetails }) => {
     }
   }, [dispatch]);
 
+  let id
+  if (!user) {
+     id = localStorage.getItem("id");
+  } else {
+     id = idUser; //desde el estado
+  }
+
+  
+
   useEffect(()=>{
-    let id = localStorage.getItem("id");
-    dispatch(getFavorites(id)); 
-  },[])
+   // let id = localStorage.getItem("id");
+    if (id) dispatch(getFavorites(id)); 
+  },[id])
 
   const completePayment = async () => {
     try {
