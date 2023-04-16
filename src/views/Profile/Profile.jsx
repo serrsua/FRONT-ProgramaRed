@@ -166,27 +166,35 @@ const Profile = ({ toggleDetails }) => {
         )
       );
     }
-    if (e.target.value === "A-Z"){
-      setPosts([...posts].sort((a, b) => {
-        if (a.title < b.title) {
-          return -1;
-        }
-        if (a.title > b.title) {
-          return 1;
-        }
-        return 0;
-      }))
+    if (e.target.value === "A-Z") {
+      setPosts(
+        [...posts].sort((a, b) => {
+          if (a.title < b.title) {
+            return -1;
+          }
+          if (a.title > b.title) {
+            return 1;
+          }
+          return 0;
+        })
+      );
     }
-    if (e.target.value === "Z-A"){
-      setPosts([...posts].sort((a, b) => {
-        if (a.title < b.title) {
-          return 1;
-        }
-        if (a.title > b.title) {
-          return -1;
-        }
-        return 0;
-      }))
+    if (e.target.value === "Z-A") {
+      setPosts(
+        [...posts].sort((a, b) => {
+          if (a.title < b.title) {
+            return 1;
+          }
+          if (a.title > b.title) {
+            return -1;
+          }
+          return 0;
+        })
+      );
+    }
+    if (e.target.value === "eliminar") {
+      e.target.value = "";
+      setPosts([...user.Posts]);
     }
   };
 
@@ -580,7 +588,9 @@ const Profile = ({ toggleDetails }) => {
                 </h2>
                 <div className="DIV_ORDER flex self-center ">
                   <select name="" id="" onChange={orderAlph}>
-                    <option value="" hidden>Ordenar</option>
+                    <option value="" hidden>
+                      Ordenar
+                    </option>
                     <optgroup label="Fecha">
                       <option value="Más reciente">Más reciente</option>
                       <option value="Más antiguo">Más antiguo</option>
@@ -588,6 +598,7 @@ const Profile = ({ toggleDetails }) => {
                     <optgroup label="Título">
                       <option value="A-Z">A-Z</option>
                       <option value="Z-A">Z-A</option>
+                      <option value="eliminar">Quitar orden</option>
                     </optgroup>
                   </select>
                 </div>
