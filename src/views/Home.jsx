@@ -44,7 +44,8 @@ const Home = ({ toggleDetails }) => {
         const {data}= await axios.get(`/user/${localStorage.getItem('id')}`)
         const response = await axios.post('/subcriptionsEmail', {
           username:data.username, 
-          email:data.email 
+          email:data.email,
+          type:"Suscripcion" 
         })
         if (response.status===200){
           Swal.fire({

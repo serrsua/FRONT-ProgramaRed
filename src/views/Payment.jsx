@@ -37,8 +37,8 @@ const Payment = () => {
             "Pagar una subscripcion premium para poder publicar videos",
           price: 500,
           user: {
-            username: "nicolas123",
-            email: "juncosnicolas36@gmail.com",
+            username: user.username,
+            email: user.email,
           },
         })
         .then((response) => response.data)
