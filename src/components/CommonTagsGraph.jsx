@@ -8,7 +8,7 @@ export const CommonTagsGraph = ({ data }) => {
             <BarChart
                 categories={["Cantidad de posts por tag"]}
                 data={data.map(d => ({ tag: d.tag, "Cantidad de posts por tag": Number(d.cantidad) }))}
-                colors={["blue"]}
+                colors={["green"]}
                 category='Cantidad de posts por tag'
                 index='tag'
                 yAxisWidth={48}
