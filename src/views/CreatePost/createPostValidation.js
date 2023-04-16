@@ -19,20 +19,16 @@ export const validate = (data) => {
   if (data.description.length > 500)
     errors.description = "Descripción demasiado larga";
 
-
-    // AGREGAMOS
-  console.log("estoy en validate!!!!", data.files[0].type);
   if (data.files.length) {
     if (data.isPremium) {
       for (let i = 0; i < data.files.length; i++) {
         if (!regexFiles.test(data.files[i].type))
-          errors.files =
-            "Sólo se admiten archivos: png, jpg, gif, bmp, svg y mp4";
+          errors.files = "Sólo se admiten archivos: png, jpg, jpeg, gif, svg y mp4";
       }
     } else {
       for (let i = 0; i < data.files.length; i++) {
         if (!regexImg.test(data.files[i].type))
-          errors.files = "Sólo puedes subir imagenes png, jpg bmp, o svg";
+          errors.files = "Sólo puedes subir imagenes png, jpg, jpeg, o svg";
       }
     }
   }
@@ -40,4 +36,3 @@ export const validate = (data) => {
   return errors;
 };
 
-//

@@ -20,16 +20,14 @@ const CreatePost = () => {
     dispatch(getUserById(id));
   }, [dispatch, id, user]);
 
-  // console.log("USER desp del useEffect: ", user);
-
   const [form, setForm] = useState({
     title: "",
     tags: [],
     actualTag: "",
     description: "",
     userId: id,
-    files: [],  
-    isPremium: user.isPremium,  // AGREGAMOS
+    files: [],
+    isPremium: user.isPremium,
   });
 
   const [errors, setErrors] = useState({
@@ -37,8 +35,8 @@ const CreatePost = () => {
     tags: [],
     actualTag: "",
     description: "",
-    files: "",        // AGREGAMOS
-    isPremium: false, // AGREGAMOS
+    files: "",
+    isPremium: false,
   });
 
   const [tag, setTag] = useState("");
@@ -52,7 +50,7 @@ const CreatePost = () => {
         !form.actualTag ||
         !form.description ||
         !form.tags.length ||
-        !errors.files  // REVISAR!!
+        !checkFile()
       ) {
         if (!form.userId) {
           form.userId = id;
@@ -62,7 +60,17 @@ const CreatePost = () => {
         setFormComplete(true);
       }
     };
+
+    function checkFile(){
+      if (form.files.length) {
+        if (errors.files) return false;
+        return true;
+      }
+      return true
+    }
+    setErrors(validate(form));
     checkFormComplete();
+
   }, [form, id]);
 
   const handleInputs = (e) => {
@@ -70,12 +78,6 @@ const CreatePost = () => {
       ...form,
       [e.target.name]: e.target.value,
     });
-    setErrors(
-      validate({
-        ...form,
-        [e.target.name]: e.target.value,
-      })
-    );
   };
 
   const addTag = () => {
@@ -115,10 +117,12 @@ const CreatePost = () => {
       ...form,
       files: [...form.files, ...files],
     });
-    setErrors({                          // AGREGAMOS
-      ...form,
-      files: [...form.files, ...files],
-    });
+    setErrors(
+      validate({
+        ...form,
+        files: [...form.files, ...files],
+      })
+    );
   };
 
   const fileDelete = (file) => {
@@ -349,7 +353,7 @@ const CreatePost = () => {
                   className="hidden"
                   accept={
                     user.isPremium
-                      ? "video/*|image/*"   // AGREGAMOS
+                      ? "video/*|image/*"
                       : "image/*"
                   }
                   id="archivo"
@@ -360,6 +364,11 @@ const CreatePost = () => {
                 errors.files.name ? <span className="text-red-500 text-sm">{errors.files}</span> : ""   // REVISAR
               } */}
             </div>
+            {errors.files ? (
+              <span className="text-red-500 text-sm">{errors.files}</span>
+            ) : (
+              ""
+            )}
           </div>
 
           <div className="flex flex-wrap justify-center y-3 gap-2">
