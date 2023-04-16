@@ -43,6 +43,12 @@ export default function DashboardAdmin() {
             setUsers(res.data)
         }
     }
+    const getActiveUsers = async (isActive) => {
+        const res = await axios.get(`/getActiveUsers?isActive=${isActive}`)
+        if (res.status === 200) {
+            setUsers(res.data)
+        }
+    }
     const confirmDeleteUser = async (id, username, email) => {
         try {
             const result = await Swal.fire({
@@ -148,6 +154,7 @@ export default function DashboardAdmin() {
                 ) : (
                     <UsersTable users={users}
                         onSearch={getAllUsers}
+                        onSearchBan={getActiveUsers}
                         onDeleteUser={confirmDeleteUser}
                         onUbanUser={confirmUnbanUser} />
                 )
