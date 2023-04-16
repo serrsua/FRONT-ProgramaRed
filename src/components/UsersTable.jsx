@@ -1,12 +1,22 @@
 import { Badge, BadgeDelta, Button, Card, Col, Grid, Table, TableBody, TableCell, TableHead, TableHeaderCell, TableRow, Text } from '@tremor/react'
 import React from 'react'
-import { Link } from 'react-router-dom'
 import { SelectUsers } from './SelectUsers'
+import { SelectUsersBan } from './SelectUsersBan'
 
-export function UsersTable({ users, onSearch }) {
+export function UsersTable({ users, onSearch, onSearchBan, onDeleteUser, onUbanUser }) {
     return (
         <Card className='mt-3'>
-            <SelectUsers onSearch={onSearch} />
+            <Grid numCols={2} numColsMd={1} className='flex items-start justify-start gap-3'>
+                <Col>
+                    <SelectUsers onSearch={onSearch} />
+                </Col>
+                <Col>
+                    <SelectUsersBan onSearch={onSearchBan} />
+                </Col>
+                <Col>
+                    <Button color='blue' onClick={() => onSearch()}>Borrar filtros</Button>
+                </Col>
+            </Grid>
             <Table>
                 <TableHead>
                     <TableRow>
@@ -32,20 +42,22 @@ export function UsersTable({ users, onSearch }) {
                                     }
                                 </TableCell>
                                 <TableCell>
-                                    <Grid numCols={1} numColsMd={2}>
+                                    <Grid numCols={1} numColsMd={1}>
                                         <Col className='mt-1'>
-                                            <Link to={`/admin/editUser/${u.id}`}>
-                                                <Button size='sm' color='blue'>
-                                                    <svg height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="m18.988 2.012 3 3L19.701 7.3l-3-3zM8 16h3l7.287-7.287-3-3L8 13z" /><path d="M19 19H8.158c-.026 0-.053.01-.079.01-.033 0-.066-.009-.1-.01H5V5h6.847l2-2H5c-1.103 0-2 .896-2 2v14c0 1.104.897 2 2 2h14a2 2 0 0 0 2-2v-8.668l-2 2V19z" /></svg>
-                                                </Button>
-                                            </Link>
-                                        </Col>
-                                        <Col className='mt-1'>
-                                            <Link to={`/admin/deleteUser/${u.id}`}>
-                                                <Button size='sm' color='red'>
-                                                    <svg width={'24'} height={'24'} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g><path d="M0 0h24v24H0z" fill="none" /><path d="M17 6h5v2h-2v13a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V8H2V6h5V3a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v3zm1 2H6v12h12V8zm-9 3h2v6H9v-6zm4 0h2v6h-2v-6zM9 4v2h6V4H9z" /></g></svg>
-                                                </Button>
-                                            </Link>
+                                            <Button onClick={() => u.isActive
+                                                ? onDeleteUser(u.id, u.username, u.email)
+                                                : onUbanUser(u.id, u.username, u.email)} size='xs' color={u.isActive ? 'red' : 'emerald'}>
+                                                {
+                                                    u.isActive
+                                                        ? <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
+                                                            <path d="M10.375 2.25a4.125 4.125 0 100 8.25 4.125 4.125 0 000-8.25zM10.375 12a7.125 7.125 0 00-7.124 7.247.75.75 0 00.363.63 13.067 13.067 0 006.761 1.873c2.472 0 4.786-.684 6.76-1.873a.75.75 0 00.364-.63l.001-.12v-.002A7.125 7.125 0 0010.375 12zM16 9.75a.75.75 0 000 1.5h6a.75.75 0 000-1.5h-6z" />
+                                                        </svg>
+
+                                                        : <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
+                                                            <path fillRule="evenodd" d="M18.685 19.097A9.723 9.723 0 0021.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 003.065 7.097A9.716 9.716 0 0012 21.75a9.716 9.716 0 006.685-2.653zm-12.54-1.285A7.486 7.486 0 0112 15a7.486 7.486 0 015.855 2.812A8.224 8.224 0 0112 20.25a8.224 8.224 0 01-5.855-2.438zM15.75 9a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" clipRule="evenodd" />
+                                                        </svg>
+                                                }
+                                            </Button>
                                         </Col>
                                     </Grid>
                                 </TableCell>

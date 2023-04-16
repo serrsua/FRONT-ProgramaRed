@@ -5,6 +5,7 @@ import { CommonTagsGraph } from '../components/CommonTagsGraph';
 import { CounUsersCard } from "../components/CounUsersCard";
 import { CountPostByTagCard } from '../components/CountPostByTagCard';
 import { UsersTable } from '../components/UsersTable';
+import Swal from 'sweetalert2';
 
 export default function DashboardAdmin() {
     const [siteUsers, setSiteUsers] = useState(0)
@@ -42,6 +43,80 @@ export default function DashboardAdmin() {
             setUsers(res.data)
         }
     }
+    const getActiveUsers = async (isActive) => {
+        const res = await axios.get(`/getActiveUsers?isActive=${isActive}`)
+        if (res.status === 200) {
+            setUsers(res.data)
+        }
+    }
+    const confirmDeleteUser = async (id, username, email) => {
+        try {
+            const result = await Swal.fire({
+                title: "Confirmar Baneo",
+                text: `Esta seguro de banear a ${username}?`,
+                showCancelButton: true,
+                showConfirmButton: true
+            })
+            if (result.isConfirmed) {
+                const res = await axios.delete(`/user/${id}`)
+                if (res.status === 200) {
+                    const response = await axios.post('/subcriptionsEmail', {
+                        username: username,
+                        email: email,
+                        type: "Baneo"
+                    })
+                    if (response.status === 200) {
+                        await Swal.fire({
+                            title: "Baneo confirmado",
+                            text: `Usuario baneado! 😱 ${response.data}`,
+                            showConfirmButton: true
+                        })
+                        await getAllUsers()
+                    }
+                }
+            }
+        } catch (error) {
+            await Swal.fire({
+                title: "Error al banear usuario",
+                text: error.message,
+                timer: 3000
+            })
+        }
+    }
+    const confirmUnbanUser = async (id, username, email) => {
+        try {
+            const result = await Swal.fire({
+                title: "Confirmar desbaneo",
+                text: `Esta seguro de desbanear a ${username}?`,
+                showCancelButton: true,
+                showConfirmButton: true
+            })
+            if (result.isConfirmed) {
+                const res = await axios.put(`/unbanUser/${id}`)
+                if (res.status === 200) {
+                    const response = await axios.post('/subcriptionsEmail', {
+                        username: username,
+                        email: email,
+                        type: "Desbaneo"
+                    })
+                    if (response.status === 200) {
+                        await Swal.fire({
+                            title: "Desbaneo confirmado",
+                            text: `Usuario desbaneado! 🤗 ${response.data}`,
+                            showConfirmButton: true
+                        })
+                        await getAllUsers()
+                    }
+                }
+            }
+        } catch (error) {
+            await Swal.fire({
+                title: "Error al banear usuario",
+                text: error.message,
+                timer: 3000
+            })
+        }
+    }
     useEffect(() => {
         countUsers()
         countPostByTag()
@@ -77,7 +152,11 @@ export default function DashboardAdmin() {
                         <CommonTagsGraph data={siteTags} />
                     </>
                 ) : (
-                    <UsersTable users={users} onSearch={getAllUsers} />
+                    <UsersTable users={users}
+                        onSearch={getAllUsers}
+                        onSearchBan={getActiveUsers}
+                        onDeleteUser={confirmDeleteUser}
+                        onUbanUser={confirmUnbanUser} />
                 )
             }
         </div>

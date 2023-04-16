@@ -46,11 +46,17 @@ const FormSignUp = () => {
     e.preventDefault();
     try {
       const info = await axios.post("/register", form);
+      const response = await axios.post('/subcriptionsEmail', {
+        username:form.username, 
+        email:form.email,
+        type:"Registro"  
+      })
       Swal.fire({
         icon: "success",
         title: info.data,
+        text: response.data,
         showConfirmButton: false,
-        timer: 1200,
+        timer: 1600,
       })
       clearForm();
       navigate("/");
