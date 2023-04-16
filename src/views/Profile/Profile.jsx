@@ -166,6 +166,36 @@ const Profile = ({ toggleDetails }) => {
         )
       );
     }
+    if (e.target.value === "A-Z") {
+      setPosts(
+        [...posts].sort((a, b) => {
+          if (a.title < b.title) {
+            return -1;
+          }
+          if (a.title > b.title) {
+            return 1;
+          }
+          return 0;
+        })
+      );
+    }
+    if (e.target.value === "Z-A") {
+      setPosts(
+        [...posts].sort((a, b) => {
+          if (a.title < b.title) {
+            return 1;
+          }
+          if (a.title > b.title) {
+            return -1;
+          }
+          return 0;
+        })
+      );
+    }
+    if (e.target.value === "eliminar") {
+      e.target.value = "";
+      setPosts([...user.Posts]);
+    }
   };
 
   console.log("orderPost: ", posts);
@@ -559,18 +589,18 @@ const Profile = ({ toggleDetails }) => {
                 <div className="DIV_ORDER flex self-center ">
                   <select name="" id="" onChange={orderAlph}>
                     <option value="" hidden>
-                      Ordenar por titulo
+                      Ordenar
                     </option>
-                    <option value="Más reciente">Más reciente</option>
-                    <option value="Más antiguo">Más antiguo</option>
+                    <optgroup label="Fecha">
+                      <option value="Más reciente">Más reciente</option>
+                      <option value="Más antiguo">Más antiguo</option>
+                    </optgroup>
+                    <optgroup label="Título">
+                      <option value="A-Z">A-Z</option>
+                      <option value="Z-A">Z-A</option>
+                      <option value="eliminar">Quitar orden</option>
+                    </optgroup>
                   </select>
-                  {/* <span>Ordenar</span>
-                      <span className=" cursor-pointer" value="Más reciente" onClick={()=>orderAlph()} >
-                         Más reciente
-                       </span>
-                      <span className=" cursor-pointer" value="Más antiguo" onClick={()=>orderAlph()} >
-                          Más antiguo
-                   </span> */}
                 </div>
                 <div className="flex flex-col gap-2 py-5 overflow-y-auto scrollbar-thin scrollbar-track-transparent">
                   {posts?.map((post, i) => {
