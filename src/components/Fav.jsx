@@ -4,20 +4,39 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getFavorites } from "../redux/actions";
 import Swal from "sweetalert2";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const Fav = ({ postId, localUser }) => {
   const [userId, setUserId] = useState("");
   const dispatch = useDispatch();
+  const { user } = useAuth0();
+
 
   useEffect(() => {
+    if (user){
+    async function fetchData() {
+      try {
+       let { data } = await axios(`/user/username/${user.nickname}`);
+       setUserId(data[0].id);
+      }catch(e){
+        console.log(e)
+      }
+    }
+    fetchData();
+    }
+  },[user])
+  
+  if (!localUser) localUser=userId
+
+  useEffect(() => {
+    if (!user){
     let id = localStorage.getItem("id");
     if (id) {
       setUserId(id);
       // dispatch(getFavorites(id));       
+    } 
     }
   }, [dispatch]);
-
-  // console.log("userId:", userId);
 
   const [clicked, setClicked] = useState(false);
   const allFavorites = useSelector((state) => state.favorites);
