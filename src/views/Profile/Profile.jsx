@@ -9,6 +9,7 @@ import { uploadFile } from "../../firebase/config";
 import person from "../../images/person.png";
 import NotFound from "../../components/NotFound";
 import Validate from "./Validate.js";
+import Loading from "../../components/Loading";
 
 const Profile = ({ toggleDetails }) => {
   const dispatch = useDispatch();
@@ -16,6 +17,7 @@ const Profile = ({ toggleDetails }) => {
 
   const user = useSelector((state) => state.actualUser);
 
+  const [posts, setPosts] = useState(user.Posts);
   const [formEmail, setFormEmail] = useState(false);
   const [email, setEmail] = useState("");
   const [formDescription, setFormDescription] = useState(false);
@@ -41,6 +43,12 @@ const Profile = ({ toggleDetails }) => {
       dispatch(clearUser());
     };
   }, [id]);
+
+  useEffect(() => {
+    setPosts(user.Posts);
+  }, [user]);
+
+  console.log("postssss: ", posts);
 
   const handleInputChange = (event) => {
     const property = event.target.name;
@@ -142,6 +150,25 @@ const Profile = ({ toggleDetails }) => {
       }
     }
   };
+
+  const orderAlph = (e) => {
+    if (e.target.value === "Más antiguo") {
+      setPosts(
+        [...posts].sort(
+          (a, b) => new Date(a.publishDate) - new Date(b.publishDate)
+        )
+      );
+    }
+    if (e.target.value === "Más reciente") {
+      setPosts(
+        [...posts].sort(
+          (a, b) => new Date(b.publishDate) - new Date(a.publishDate)
+        )
+      );
+    }
+  };
+
+  console.log("orderPost: ", posts);
 
   return (
     <>
@@ -354,7 +381,10 @@ const Profile = ({ toggleDetails }) => {
                         rows="5"
                         className=" resize-none bg-transparent border-2 border-cyan-700 text-blue-800 px-2 py-1 font-medium rounded-md focus:outline-2 focus:outline-blue-700"
                       ></textarea>
-                      <span onClick={()=> updateDescription()} className="p-2 m-4 self-center font-medium rounded-md bg-ligthGreen transition-all duration-500 hover:bg-mediumGreen hover:scale-110">
+                      <span
+                        onClick={() => updateDescription()}
+                        className="p-2 m-4 self-center font-medium rounded-md bg-ligthGreen transition-all duration-500 hover:bg-mediumGreen hover:scale-110"
+                      >
                         Actualizar
                       </span>
                     </div>
@@ -478,9 +508,7 @@ const Profile = ({ toggleDetails }) => {
                       Agrega un link
                     </button>
                     {formLinks && (
-                      <form
-                        className="flex flex-row-reverse items-center gap-1"
-                      >
+                      <form className="flex flex-row-reverse items-center gap-1">
                         <div>
                           <input
                             className=" bg-transparent border-2 border-cyan-700 text-blue-800 px-2 py-1 font-medium rounded-md focus:outline-2 focus:outline-blue-700"
@@ -495,7 +523,8 @@ const Profile = ({ toggleDetails }) => {
                             id="url"
                           />
                         </div>
-                        <span onClick={()=>updateLinks()}
+                        <span
+                          onClick={() => updateLinks()}
                           type="submit"
                           className=" min-w-max  bg-ligthGreen px-2 py-1 transition-all rounded-lg font-semibold hover:bg-mediumGreen"
                         >
@@ -527,8 +556,24 @@ const Profile = ({ toggleDetails }) => {
                     ? "Publicaciones"
                     : "No hay publicaciones"}
                 </h2>
+                <div className="DIV_ORDER flex self-center ">
+                  <select name="" id="" onChange={orderAlph}>
+                    <option value="" hidden>
+                      Ordenar por titulo
+                    </option>
+                    <option value="Más reciente">Más reciente</option>
+                    <option value="Más antiguo">Más antiguo</option>
+                  </select>
+                  {/* <span>Ordenar</span>
+                      <span className=" cursor-pointer" value="Más reciente" onClick={()=>orderAlph()} >
+                         Más reciente
+                       </span>
+                      <span className=" cursor-pointer" value="Más antiguo" onClick={()=>orderAlph()} >
+                          Más antiguo
+                   </span> */}
+                </div>
                 <div className="flex flex-col gap-2 py-5 overflow-y-auto scrollbar-thin scrollbar-track-transparent">
-                  {user.Posts?.map((post, i) => {
+                  {posts?.map((post, i) => {
                     return (
                       <Post
                         post={post}
@@ -547,9 +592,15 @@ const Profile = ({ toggleDetails }) => {
         </div>
       ) : (
         <div className="DIV_PROFILE flex flex-col w-full relative">
-          <p>Perfil? no hay Perfil!</p>
-          <NotFound />
+          <Loading />
         </div>
+      )}
+      {!user.username ? (
+        <div className="DIV_PROFILE flex flex-col w-full relative">
+          <Loading />
+        </div>
+      ) : (
+        ""
       )}
     </>
   );
