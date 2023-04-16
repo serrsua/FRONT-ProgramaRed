@@ -595,6 +595,13 @@ const Profile = ({ toggleDetails }) => {
           <Loading />
         </div>
       )}
+      {!user.username ? (
+        <div className="DIV_PROFILE flex flex-col w-full relative">
+          <Loading />
+        </div>
+      ) : (
+        ""
+      )}
     </>
   );
 };
