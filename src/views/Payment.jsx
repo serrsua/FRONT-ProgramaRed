@@ -37,8 +37,8 @@ const Payment = () => {
             "Pagar una subscripcion premium para poder publicar videos",
           price: 500,
           user: {
-            username: "nicolas123",
-            email: "juncosnicolas36@gmail.com",
+            username: user.username,
+            email: user.email,
           },
         })
         .then((response) => response.data)
@@ -249,20 +249,17 @@ const Payment = () => {
             </h2>
           </>
         )}
-
+         <Wallet
+            customization={{
+              visual: { buttonBackground: "default", borderRadius: "8rem" },
+            }}
+            onReady={onReady}
+            onSubmit={onSubmit}
+            onError={onError}
+          />
         {cargando && (
           <span className="text-sm text-orange-700 font-bold">Cargando...</span>
         )}
-        
-        <Wallet // CONDICIONAL NO FUNCIONABA
-          customization={{
-            visual: { buttonBackground: "default", borderRadius: "8rem" },
-          }}
-          onReady={onReady}
-          onSubmit={onSubmit}
-          onError={onError}
-        />
-
         {procesando && (
           <span className="text-sm text-orange-700 font-bold">
             Procesando Pago...
