@@ -479,7 +479,6 @@ const Profile = ({ toggleDetails }) => {
                     </button>
                     {formLinks && (
                       <form
-                        onSubmit={updateLinks}
                         className="flex flex-row-reverse items-center gap-1"
                       >
                         <div>
@@ -496,12 +495,12 @@ const Profile = ({ toggleDetails }) => {
                             id="url"
                           />
                         </div>
-                        <button
+                        <span onClick={()=>updateLinks()}
                           type="submit"
                           className=" min-w-max  bg-ligthGreen px-2 py-1 transition-all rounded-lg font-semibold hover:bg-mediumGreen"
                         >
                           Subir url
-                        </button>
+                        </span>
                       </form>
                     )}
                   </>
