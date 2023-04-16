@@ -26,11 +26,11 @@ const Post = ({ post, user, toggleDetails }) => {
           <div className="bg-green-300 w-12 h-12 rounded-full mr-3">
             <img
               src={
-                user.profileImage
+                user?.profileImage
                   ? user.profileImage
                   : person
               }
-              alt={user.profileImage}
+              alt={user?.profileImage}
               className="w-full rounded-full"
             />
           </div>
