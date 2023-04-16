@@ -249,12 +249,7 @@ const Payment = () => {
             </h2>
           </>
         )}
-
-        {cargando && (
-          <span className="text-sm text-orange-700 font-bold">Cargando...</span>
-        )}
-        {!cargando && (
-          <Wallet
+         <Wallet
             customization={{
               visual: { buttonBackground: "default", borderRadius: "8rem" },
             }}
@@ -262,6 +257,8 @@ const Payment = () => {
             onSubmit={onSubmit}
             onError={onError}
           />
+        {cargando && (
+          <span className="text-sm text-orange-700 font-bold">Cargando...</span>
         )}
         {procesando && (
           <span className="text-sm text-orange-700 font-bold">
