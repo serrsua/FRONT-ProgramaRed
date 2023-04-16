@@ -3,7 +3,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { SelectUsers } from './SelectUsers'
 
-export function UsersTable({ users, onSearch }) {
+export function UsersTable({ users, onSearch, onDeleteUser, onUbanUser }) {
     return (
         <Card className='mt-3'>
             <SelectUsers onSearch={onSearch} />
@@ -32,20 +32,22 @@ export function UsersTable({ users, onSearch }) {
                                     }
                                 </TableCell>
                                 <TableCell>
-                                    <Grid numCols={1} numColsMd={2}>
+                                    <Grid numCols={1} numColsMd={1}>
                                         <Col className='mt-1'>
-                                            <Link to={`/admin/editUser/${u.id}`}>
-                                                <Button size='sm' color='blue'>
-                                                    <svg height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="m18.988 2.012 3 3L19.701 7.3l-3-3zM8 16h3l7.287-7.287-3-3L8 13z" /><path d="M19 19H8.158c-.026 0-.053.01-.079.01-.033 0-.066-.009-.1-.01H5V5h6.847l2-2H5c-1.103 0-2 .896-2 2v14c0 1.104.897 2 2 2h14a2 2 0 0 0 2-2v-8.668l-2 2V19z" /></svg>
-                                                </Button>
-                                            </Link>
-                                        </Col>
-                                        <Col className='mt-1'>
-                                            <Link to={`/admin/deleteUser/${u.id}`}>
-                                                <Button size='sm' color='red'>
-                                                    <svg width={'24'} height={'24'} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g><path d="M0 0h24v24H0z" fill="none" /><path d="M17 6h5v2h-2v13a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V8H2V6h5V3a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v3zm1 2H6v12h12V8zm-9 3h2v6H9v-6zm4 0h2v6h-2v-6zM9 4v2h6V4H9z" /></g></svg>
-                                                </Button>
-                                            </Link>
+                                            <Button onClick={() => u.isActive
+                                                ? onDeleteUser(u.id, u.username, u.email)
+                                                : onUbanUser(u.id, u.username, u.email)} size='sm' color={u.isActive ? 'red' : 'emerald'}>
+                                                {
+                                                    u.isActive
+                                                        ? <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
+                                                            <path fillRule="evenodd" d="M5.47 5.47a.75.75 0 011.06 0L12 10.94l5.47-5.47a.75.75 0 111.06 1.06L13.06 12l5.47 5.47a.75.75 0 11-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 01-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 010-1.06z" clipRule="evenodd" />
+                                                        </svg>
+
+                                                        : <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
+                                                            <path fillRule="evenodd" d="M19.916 4.626a.75.75 0 01.208 1.04l-9 13.5a.75.75 0 01-1.154.114l-6-6a.75.75 0 011.06-1.06l5.353 5.353 8.493-12.739a.75.75 0 011.04-.208z" clipRule="evenodd" />
+                                                        </svg>
+                                                }
+                                            </Button>
                                         </Col>
                                     </Grid>
                                 </TableCell>
