@@ -28,7 +28,8 @@ const CreatePost = () => {
     actualTag: "",
     description: "",
     userId: id,
-    files: [],
+    files: [],  
+    isPremium: user.isPremium,  // AGREGAMOS
   });
 
   const [errors, setErrors] = useState({
@@ -36,6 +37,8 @@ const CreatePost = () => {
     tags: [],
     actualTag: "",
     description: "",
+    files: "",        // AGREGAMOS
+    isPremium: false, // AGREGAMOS
   });
 
   const [tag, setTag] = useState("");
@@ -48,7 +51,8 @@ const CreatePost = () => {
         !form.title ||
         !form.actualTag ||
         !form.description ||
-        !form.tags.length
+        !form.tags.length ||
+        !errors.files  // REVISAR!!
       ) {
         if (!form.userId) {
           form.userId = id;
@@ -111,6 +115,10 @@ const CreatePost = () => {
       ...form,
       files: [...form.files, ...files],
     });
+    setErrors({                          // AGREGAMOS
+      ...form,
+      files: [...form.files, ...files],
+    });
   };
 
   const fileDelete = (file) => {
@@ -151,6 +159,8 @@ const CreatePost = () => {
     }
     clearForm();
   };
+
+  console.log("form FILES. ", form.files);
 
   return (
     <div className="DIV_CREATEPOST block my-8 px-4 w-full">
@@ -305,7 +315,9 @@ const CreatePost = () => {
               htmlFor="archivo"
               className="block text-gray-700 font-bold mb-2"
             >
-              Selecciona una imagen
+              {user.isPremium
+                ? "Selecciona una archivo"
+                : "Selecciona una imagen"}
             </label>
             <div className="flex items-center justify-center w-full">
               <label
@@ -335,10 +347,18 @@ const CreatePost = () => {
                   multiple
                   type="file"
                   className="hidden"
-                  accept="image/*"
+                  accept={
+                    user.isPremium
+                      ? "video/*|image/*"   // AGREGAMOS
+                      : "image/*"
+                  }
                   id="archivo"
                 />
               </label>
+              {/* {console.log("ERRORSSSS: ",errors.files)}
+              {
+                errors.files.name ? <span className="text-red-500 text-sm">{errors.files}</span> : ""   // REVISAR
+              } */}
             </div>
           </div>
 

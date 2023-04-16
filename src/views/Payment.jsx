@@ -253,16 +253,16 @@ const Payment = () => {
         {cargando && (
           <span className="text-sm text-orange-700 font-bold">Cargando...</span>
         )}
-        {!cargando && (
-          <Wallet
-            customization={{
-              visual: { buttonBackground: "default", borderRadius: "8rem" },
-            }}
-            onReady={onReady}
-            onSubmit={onSubmit}
-            onError={onError}
-          />
-        )}
+        
+        <Wallet // CONDICIONAL NO FUNCIONABA
+          customization={{
+            visual: { buttonBackground: "default", borderRadius: "8rem" },
+          }}
+          onReady={onReady}
+          onSubmit={onSubmit}
+          onError={onError}
+        />
+
         {procesando && (
           <span className="text-sm text-orange-700 font-bold">
             Procesando Pago...

@@ -78,8 +78,9 @@ const PostDetail = ({ toggleDetails }) => {
               return (
                 <div className=" flex w-52  m-2" key={i}>
                   <a rel="noreferrer noopener" href={file} target="_blank">
-                    <img className=" w-full rounded-md" src={file} alt="a" />
+                    <img className=" w-full rounded-md" src={file} alt="FORMATO NO VALIDO" />
                   </a>
+                  <video controls src={file}></video> // MODIFICAR TERNARIO PARA QUE MUESTRE VIDEO O IMG
                 </div>
               );
             })}
