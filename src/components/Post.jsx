@@ -8,7 +8,6 @@ import Trash from "./Trash";
 import Edit from "./Edit";
 
 const Post = ({ post, user, toggleDetails }) => {
-  //post recibe username porque en algunos casos el "post" no posee username
   const [localPost, setLocalPost] = useState({});
   let userId = localStorage.getItem("id");
   const { pathname } = useLocation();
@@ -37,15 +36,15 @@ const Post = ({ post, user, toggleDetails }) => {
 
           <div className="flex-1">
             <NavLink
-              to={`/profile/${user.id}`}
+              to={`/profile/${user?.id}`}
               className="text-green-700 font-medium text-sm"
             >
-              {user.username}
+              {user?.username}
             </NavLink>
             <p className="text-black text-xs font-medium">{`Creado el ${post.publishDate}`}</p>
           </div>
           <Fav
-            userId={user.id}
+            userId={user?.id}
             postId={localPost.id}
             localUser={userId}
           />
