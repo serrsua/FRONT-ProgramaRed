@@ -164,6 +164,8 @@ const CreatePost = () => {
     clearForm();
   };
 
+  console.log("form FILES. ", form.files);
+
   return (
     <div className="DIV_CREATEPOST block my-8 px-4 w-full">
       <div className="max-w-[600px] mx-auto p-6 bg-white rounded-md shadow-md w-full">
@@ -351,12 +353,16 @@ const CreatePost = () => {
                   className="hidden"
                   accept={
                     user.isPremium
-                      ? "video/*|image/*" // AGREGAMOS
+                      ? "video/*|image/*"
                       : "image/*"
                   }
                   id="archivo"
                 />
               </label>
+              {/* {console.log("ERRORSSSS: ",errors.files)}
+              {
+                errors.files.name ? <span className="text-red-500 text-sm">{errors.files}</span> : ""   // REVISAR
+              } */}
             </div>
             {errors.files ? (
               <span className="text-red-500 text-sm">{errors.files}</span>

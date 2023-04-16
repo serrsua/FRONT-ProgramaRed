@@ -249,6 +249,7 @@ const Payment = () => {
             </h2>
           </>
         )}
+
          <Wallet
             customization={{
               visual: { buttonBackground: "default", borderRadius: "8rem" },
@@ -260,6 +261,7 @@ const Payment = () => {
         {cargando && (
           <span className="text-sm text-orange-700 font-bold">Cargando...</span>
         )}
+
         {procesando && (
           <span className="text-sm text-orange-700 font-bold">
             Procesando Pago...

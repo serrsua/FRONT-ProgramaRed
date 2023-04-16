@@ -35,3 +35,4 @@ export const validate = (data) => {
 
   return errors;
 };
+
