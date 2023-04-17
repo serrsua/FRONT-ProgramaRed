@@ -3,7 +3,7 @@ import logo from "../images/logo.png";
 import Login from "../components/Login/Login"
 import { NavLink } from "react-router-dom";
 
-const Landing = () => {
+const Landing = ({setAccess}) => {
   return (
     <div className="DIV_LANDING grid p-3 bg-slate-400 lg:col-span-2 md:my-6 transition-all">
       {/* Hero Section */}
@@ -40,7 +40,7 @@ const Landing = () => {
 
         {/* Login Section */}
         <div className="DIV_LOADING-LOGIN max-w-sm w-full mx-auto">
-          <Login />
+          <Login setAccess={setAccess} />
         </div>
       </div>
     </div>

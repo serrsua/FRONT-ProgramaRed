@@ -5,7 +5,7 @@ import axios from "axios";
 import LoginAuth0 from "./LoginAuth0"
 import Swal from "sweetalert2";
 
-const Login = () => {
+const Login = ({setAccess}) => {
   const navigate = useNavigate()
 
   const [form, setForm] = useState({
@@ -53,6 +53,7 @@ const Login = () => {
           showConfirmButton: false,
           timer: 1500,
           didClose: () => {
+            setAccess(true);
             navigate(`/profile/${localStorage.getItem("id")}`);
           }
         })
@@ -143,7 +144,7 @@ const Login = () => {
         </form>
         <div className=" border-t border-t-gray-500 mt-3">
           <p className="text-center text-xs">Logeate con google o github</p>
-          <LoginAuth0 />
+          <LoginAuth0 setAccess={setAccess} />
         </div>
       </div>
     </div>

@@ -24,11 +24,7 @@ const Post = ({ post, user, toggleDetails }) => {
         <div className="flex items-center mb-3">
           <div className="bg-green-300 w-12 h-12 rounded-full mr-3">
             <img
-              src={
-                user?.profileImage
-                  ? user.profileImage
-                  : person
-              }
+              src={user?.profileImage ? user.profileImage : person}
               alt={user?.profileImage}
               className="w-full rounded-full"
             />
@@ -43,22 +39,18 @@ const Post = ({ post, user, toggleDetails }) => {
             </NavLink>
             <p className="text-black text-xs font-medium">{`Creado el ${post.publishDate}`}</p>
           </div>
-          <Fav
-            userId={user?.id}
-            postId={localPost.id}
-            localUser={userId}
-          />
+          <Fav userId={user?.id} postId={localPost.id} localUser={userId} />
           {pathname === `/profile/${userId}` && localPost.id && (
-            <Edit post={localPost}/>
-          )}
-          {pathname === `/profile/${userId}` && localPost.id && (
-            <Trash postId={localPost.id} />
+            <>
+              <Edit post={localPost} />
+              <Trash postId={localPost.id} />
+            </>
           )}
           {Number(localPost.User?.id) === Number(userId) && (
-            <Edit post={localPost}/>
-          )}
-          {Number(localPost.User?.id) === Number(userId) && (
-            <Trash postId={localPost.id} />
+            <>
+              <Edit post={localPost} />
+              <Trash postId={localPost.id} />
+            </>
           )}
         </div>
 
