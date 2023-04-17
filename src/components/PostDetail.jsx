@@ -6,6 +6,7 @@ import Fav from "./Fav";
 import Trash from "./Trash";
 import Edit from "./Edit";
 import { useEffect } from "react";
+import Comments from "./Comments";
 
 const PostDetail = ({ toggleDetails }) => {
   const post = useSelector((state) => state.actualPost);
@@ -23,6 +24,11 @@ const PostDetail = ({ toggleDetails }) => {
       dispatch(clearDetail());
     }
   },[dispatch])
+
+  const userId = localUser
+  const postId = post.id
+
+  console.log(post)
 
   return (
     <div className={`DIV_POSTDETAIL fixed bg-greenGray rounded-lg p-4 shadow-shadowBlack min-w-90% flex flex-col justify-between h-3/4 m-0  top-10 left-1/2 transform -translate-x-1/2 z-50`}>
@@ -84,6 +90,10 @@ const PostDetail = ({ toggleDetails }) => {
                 </div>
               );
             })}
+      </div>
+
+      <div>
+        <Comments comments={post.Comments} userId={userId} postId={postId}/>
       </div>
 
       <div className="flex gap-2 mt-3">
