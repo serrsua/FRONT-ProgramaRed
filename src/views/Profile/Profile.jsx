@@ -24,7 +24,7 @@ const Profile = ({ toggleDetails }) => {
   const [description, setDescription] = useState("");
   const [profileImg, setProfileImg] = useState();
   const [formLinks, setFormLinks] = useState(false);
-  const [links, setLinks] = useState([]);
+  const [links, setLinks] = useState("");
   const [errors, setErrors] = useState({
     email: "",
   });
@@ -81,7 +81,7 @@ const Profile = ({ toggleDetails }) => {
       });
     } else {
       const { data } = await axios.put(`/user/${userId}`, {
-        socialLinks: links,
+        socialLink: links,
       });
 
       const result = await Swal.fire({
@@ -95,7 +95,7 @@ const Profile = ({ toggleDetails }) => {
   };
   const deleteLink = async () => {
     const { data } = await axios.put(`/user/${userId}`, {
-      socialLinks: [],
+      socialLink: "",
     });
     Swal.fire({
       icon: "success",
@@ -198,7 +198,7 @@ const Profile = ({ toggleDetails }) => {
     }
   };
 
-  console.log("orderPost: ", posts);
+  console.log("LINK: ", links);
 
   return (
     <>
@@ -426,7 +426,7 @@ const Profile = ({ toggleDetails }) => {
 
               <div className="LINKS_DIV mt-7 flex items-center relative flex-wrap">
                 {id !== localStorage.getItem("id") ? ( // es otro perfil
-                  user.socialLinks?.length ? ( // y tiene links
+                  user.socialLink?.length ? ( // y tiene links
                     <>
                       <div className=" font-medium flex items-center gap-1 transition-all hover:text-blue-700">
                         <svg
@@ -443,15 +443,15 @@ const Profile = ({ toggleDetails }) => {
                             d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244"
                           />
                         </svg>
-                        <a target="_blank" href={user.socialLinks[0]}>
-                          {user.socialLinks[0]}
+                        <a target="_blank" href={user.socialLink}>
+                          {user.socialLink}
                         </a>
                       </div>
                     </>
                   ) : (
                     ""
                   )
-                ) : user.socialLinks?.length ? ( // tiene el mismo id y tiene links
+                ) : user.socialLink?.length ? ( // tiene el mismo id y tiene links
                   <>
                     <button onClick={() => setFormLinks(true)}>
                       <svg
@@ -474,10 +474,8 @@ const Profile = ({ toggleDetails }) => {
                         <form className="flex items-center justify-center flex-wrap">
                           <div>
                             <input
-                              onChange={(e) => {
-                                const url = [];
-                                url.push(e.target.value);
-                                setLinks([url]);
+                              onChange={(e) => {                                
+                                setLinks(e.target.value);
                               }}
                               value={links}
                               type="url"
@@ -516,12 +514,12 @@ const Profile = ({ toggleDetails }) => {
                         </svg>
                       </span>
                       <a
-                        href={user.socialLinks[0]}
+                        href={user.socialLink}
                         target="_blank"
                         rel="noopener noreferrer"
                         className=" inline-block px-3 font-medium transition-all hover:text-blue-700"
                       >
-                        {user.socialLinks[0]}
+                        {user.socialLink}
                       </a>
                     </div>
                   </>
@@ -543,9 +541,7 @@ const Profile = ({ toggleDetails }) => {
                           <input
                             className=" bg-transparent border-2 border-cyan-700 text-blue-800 px-2 py-1 font-medium rounded-md focus:outline-2 focus:outline-blue-700"
                             onChange={(e) => {
-                              const urls = [];
-                              urls.push(e.target.value);
-                              setLinks([urls]);
+                              setLinks(e.target.value);
                             }}
                             value={links}
                             type="url"
