@@ -4,85 +4,18 @@ import { clearFilters } from "../redux/actions";
 import { useDispatch } from "react-redux";
 import { useState, useEffect } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
-import axios from "axios";
 import Swal from "sweetalert2";
 
 const NavBar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const { logout, user, getAccessTokenSilently } = useAuth0();
+  const { logout } = useAuth0();
   const { pathname } = useLocation();
   const dispatch = useDispatch();
   const [id, setId] = useState("");
   const navigate = useNavigate();
 
-  useEffect(() => {
-    async function fetchData() {
-      // You can await here
-      try {
-        if (user) {
-          const token = await getAccessTokenSilently();
-          const responseUserCreate = await axios.get("/usercreate", {
-            headers: {
-              authorization: `Bearer ${token}`,
-            },
-          });
-
-          let { data } = await axios(`/user/username/${user.nickname}`);
-          setId(data[0].id);
-            if (!data[0].isActive) {
-                console.log(data[0].isActive)
-                await Swal.fire({
-                  position: 'center',
-                  icon: 'error',
-                  title: 'Tu cuenta se encuentra baneada',
-                  text: "Por favor comunicate con los admins del sitio",
-                  showConfirmButton: true
-                })
-                logout()
-                navigate("/")
-              }
-
-            if (responseUserCreate.data.created){//si es nuevo usuario 
-              try {
-              const response = await axios.post('/subcriptionsEmail', {
-              username:data[0].username, 
-              email:data[0].email,
-              type:"Registro" 
-              })
-            if (response.status===200){
-            Swal.fire({
-              icon: "success",
-              title: responseUserCreate.data.msg,
-              text: response.data,
-              showConfirmButton: false,
-              timer: 2000,
-            })
-            }
-            }catch(error){
-              Swal.fire({
-                icon: "error",
-                text: error.response.data,
-                showConfirmButton: true,
-              })
-            }
-          }
-          
-          localStorage.setItem("username", JSON.stringify(data[0].username));
-          localStorage.setItem("id", JSON.stringify(data[0].id));
-        }
-      } catch (e) {
-        console.log(e.message);
-      }
-    }
-    fetchData();
-  }, [getAccessTokenSilently, user]);
-
-  let userId;
-  if (!user) {
-    userId = localStorage.getItem("id");
-  } else {
-    userId = id; //desde el estado
-  }
+  
+  let userId = localStorage.getItem("id");
   let isUserLogged;
 
   if (pathname === `/profile/${userId}`) isUserLogged = true;
