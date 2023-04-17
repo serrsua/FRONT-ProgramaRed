@@ -1,18 +1,8 @@
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import Post from "../components/Post";
-import { useEffect } from "react";
-import { getFavorites } from "../redux/actions";
 
 const Favorites = ({toggleDetails}) => {
-  const dispatch = useDispatch();
-
-  const userId = localStorage.getItem("id");
   const favorites = useSelector((state) => state.favorites);
-
-  // useEffect(() => {
-  //   dispatch(getFavorites(userId));
-  // }, [favorites]);
-
 
   return (
     <div className="DIV_FAVORITES py-2">
