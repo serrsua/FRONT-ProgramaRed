@@ -586,8 +586,8 @@ const Profile = ({ toggleDetails }) => {
                     ? "Publicaciones"
                     : "No hay publicaciones"}
                 </h2>
-                <div className="DIV_ORDER flex self-center ">
-                  <select name="" id="" onChange={orderAlph}>
+                <div className="DIV_ORDER mt-2 ">
+                  <select className="rounded-lg shadow-md border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none text-gray-600 font-medium py-2 px-4" name="" id="" onChange={orderAlph}>
                     <option value="" hidden>
                       Ordenar
                     </option>
