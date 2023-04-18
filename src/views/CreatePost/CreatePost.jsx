@@ -61,16 +61,15 @@ const CreatePost = () => {
       }
     };
 
-    function checkFile(){
+    function checkFile() {
       if (form.files.length) {
         if (errors.files) return false;
         return true;
       }
-      return true
+      return true;
     }
     setErrors(validate(form));
     checkFormComplete();
-
   }, [form, id]);
 
   const handleInputs = (e) => {
@@ -139,8 +138,15 @@ const CreatePost = () => {
 
     for (const key of form.files) {
       const url = await uploadFile(key, "post/");
-      urls.push(url);
+      const type = key.type;
+      const file = {
+        url,
+        type,
+      };
+      urls.push(file);
     }
+
+    console.log("Objetos: ", urls);
 
     if (formComplete === true) {
       try {
@@ -351,11 +357,7 @@ const CreatePost = () => {
                   multiple
                   type="file"
                   className="hidden"
-                  accept={
-                    user.isPremium
-                      ? "video/*|image/*"
-                      : "image/*"
-                  }
+                  accept={user.isPremium ? "video/*|image/*" : "image/*"}
                   id="archivo"
                 />
               </label>
@@ -375,24 +377,88 @@ const CreatePost = () => {
             {!form.files.length
               ? ""
               : form.files.map((file, i) => {
-                  return (
-                    <div
-                      className="flex flex-col justify-center items-center h-[50px]"
-                      key={i}
-                    >
-                      <span
-                        onClick={() => fileDelete(file)}
-                        className="cursor-pointer bg-red-400 px-2 py-1"
+                  if (
+                    file.type === "image/png" ||
+                    file.type === "image/jpg" ||
+                    file.type === "image/jpeg" ||
+                    file.type === "image/gif" ||
+                    file.type === "image/svg"
+                  ) {
+                    return (
+                      <div
+                        className="flex flex-col justify-center items-center h-[50px]"
+                        key={i}
                       >
-                        X
-                      </span>
-                      <img
-                        className="h-full"
-                        src={URL.createObjectURL(file)}
-                        alt="a"
-                      />
-                    </div>
-                  );
+                        <span
+                          onClick={() => fileDelete(file)}
+                          className="cursor-pointer bg-red-400 px-2 py-1"
+                        >
+                          X
+                        </span>
+                        <img
+                          className="h-full"
+                          src={URL.createObjectURL(file)}
+                          alt="a"
+                        />
+                      </div>
+                    );
+                  } 
+                  else if (file.type === "video/mp4") {
+                    return (
+                      <div
+                        key={i}
+                        className="DIV_VIDEO flex flex-col items-center "
+                      >
+                        <span
+                          onClick={() => fileDelete(file)}
+                          className="cursor-pointer bg-red-400 px-2 py-1"
+                        >
+                          X
+                        </span>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          strokeWidth="1.5"
+                          stroke="currentColor"
+                          className="w-6 h-6 self-center "
+                        >
+                          <path
+                            strokeLinecap="round"
+                            d="M15.75 10.5l4.72-4.72a.75.75 0 011.28.53v11.38a.75.75 0 01-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25h-9A2.25 2.25 0 002.25 7.5v9a2.25 2.25 0 002.25 2.25z"
+                          />
+                        </svg>
+                        <span>Video</span>
+                      </div>
+                    );
+                  }
+                  else {
+                    return (
+                      <>
+                        <div
+                          className="flex flex-col justify-center items-center h-[50px]"
+                          key={i}
+                        >
+                          <svg
+                          onClick={() => fileDelete(file)}
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            strokeWidth="1.5"
+                            stroke="currentColor"
+                            className="w-6 h-6 cursor-pointer"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                            />
+                          </svg>
+                          <span>No admitido</span>
+                        </div>
+                      </>
+                    );
+                  }
                 })}
           </div>
 

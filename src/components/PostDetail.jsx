@@ -17,13 +17,15 @@ const PostDetail = ({ toggleDetails }) => {
     dispatch(clearDetail());
     dispatch(getPostByTag(tag));
     toggleDetails();
-  }; 
+  };
 
-  useEffect(()=>{
+  useEffect(() => {
     return () => {
       dispatch(clearDetail());
-    }
-  },[dispatch])
+    };
+  }, [dispatch]);
+
+  console.log("postFiles", post.PostFiles);
 
   const userId = localUser
   const postId = post.id
@@ -31,7 +33,9 @@ const PostDetail = ({ toggleDetails }) => {
   console.log(post)
 
   return (
-    <div className={`DIV_POSTDETAIL fixed bg-greenGray rounded-lg p-4 shadow-shadowBlack min-w-90% flex flex-col justify-between h-3/4 m-0  top-10 left-1/2 transform -translate-x-1/2 z-50`}>
+    <div
+      className={`DIV_POSTDETAIL fixed bg-greenGray rounded-lg p-4 shadow-shadowBlack min-w-90% flex flex-col justify-between h-3/4 m-0  top-10 left-1/2 transform -translate-x-1/2 z-50`}
+    >
       <div>
         <button
           className=" absolute right-1/2 top-2 bg-red-600 px-2 py-1 text-white font-bold rounded transition-all hover:scale-110 hover:bg-red-700 border border-black"
@@ -64,31 +68,62 @@ const PostDetail = ({ toggleDetails }) => {
             postId={post?.id}
             localUser={localUser}
           />
-          {
-            Number(post?.User?.id) === Number(localUser) && (
-              <div onClick={toggleDetails} className="flex">
-                <Edit post={post} />
-                <Trash postId={post?.id} />
-              </div>
-            )
-          }
+          {Number(post?.User?.id) === Number(localUser) && (
+            <div onClick={toggleDetails} className="flex">
+              <Edit post={post} />
+              <Trash postId={post?.id} />
+            </div>
+          )}
         </div>
         <h2 className="text-green-800 font-bold text-lg mb-2">{post?.title}</h2>
         <div className="text-green-700 text-base">{post?.description}</div>
       </div>
 
       <div className="flex justify-center">
-        {!post.files?.length
+        {!post.PostFiles?.length
           ? ""
-          : post.files.map((file, i) => {
-              return (
-                <div className=" flex w-52  m-2" key={i}>
-                  <a rel="noreferrer noopener" href={file} target="_blank">
-                    <img className=" w-full rounded-md" src={file} alt="FORMATO NO VALIDO" />
-                  </a>
-                  <video controls src={file}></video> // MODIFICAR TERNARIO PARA QUE MUESTRE VIDEO O IMG
-                </div>
-              );
+          : post.PostFiles.map((file, i) => {
+              if (
+                file.type === "image/png" ||
+                file.type === "image/jpg" ||
+                file.type === "image/jpeg" ||
+                file.type === "image/gif" ||
+                file.type === "image/svg"
+              ) {
+                return (
+                  <div className=" flex w-full  m-2" key={i}>
+                    <a
+                      rel="noreferrer noopener"
+                      href={file.url}
+                      target="_blank"
+                    >
+                      <img
+                        className=" w-full rounded-md"
+                        src={file.url}
+                        alt="FORMATO NO VALIDO"
+                      />
+                    </a>
+                  </div>
+                );
+              } else if (file.type === "video/mp4") {
+                return (
+                  <div className=" flex flex-col w-full m-2" key={i}>
+                    <video
+                      className="flex self-center h-72"
+                      controls
+                      src={file.url}
+                    ></video>
+                    <a
+                      className="flex self-center"
+                      href={file.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      ver video
+                    </a>
+                  </div>
+                );
+              }
             })}
       </div>
 
