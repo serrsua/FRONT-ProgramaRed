@@ -5,19 +5,17 @@ import { useDispatch, useSelector } from "react-redux";
 import { getFavorites } from "../redux/actions";
 import Swal from "sweetalert2";
 
+
 const Fav = ({ postId, localUser }) => {
-  const [userId, setUserId] = useState("");
   const dispatch = useDispatch();
+ 
+
+
 
   useEffect(() => {
     let id = localStorage.getItem("id");
-    if (id) {
-      setUserId(id);
-      // dispatch(getFavorites(id));       
-    }
+    dispatch(getFavorites(id));       
   }, [dispatch]);
-
-  // console.log("userId:", userId);
 
   const [clicked, setClicked] = useState(false);
   const allFavorites = useSelector((state) => state.favorites);

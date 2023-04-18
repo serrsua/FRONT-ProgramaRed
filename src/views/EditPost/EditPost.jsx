@@ -46,25 +46,7 @@ const EditPost = () => {
 
   const [tag, setTag] = useState("");
 
-  const [formComplete, setFormComplete] = useState(false);
-
   useEffect(() => {
-    const checkFormComplete = () => {
-      if (
-        !form.title ||
-        !form.actualTag ||
-        !form.description ||
-        !form.tags.length
-      ) {
-        if (!form.userId) {
-          form.userId = id;
-        }
-        setFormComplete(false);
-      } else {
-        setFormComplete(true);
-      }
-    };
-    checkFormComplete();
   }, [form, id]);
 
   const handleInputs = (e) => {
@@ -136,13 +118,12 @@ const EditPost = () => {
       urls.push(url);
     }
 
-    if (formComplete === true) {
       try {
-        const { data } = await axios.put("/post", { ...form, files: urls });
+        const { data } = await axios.put(`/post/${editedPost.id}`, { title: form.title, tags: form.tags, description: form.description, userId: form.userId});
 
         Swal.fire({
           icon: "success",
-          title: "Post Subido",
+          title: "Post Editado",
           text: data,
         }).then((result) => {
           if (result.isConfirmed) navigate(`/profile/${id}`);
@@ -151,10 +132,10 @@ const EditPost = () => {
         Swal.fire({
           icon: "error",
           title: "Oops...",
-          text: "Hubo un error al subir el post",
+          text: "Hubo un error al editar el post",
         });
       }
-    }
+    
     clearForm();
   };
 
@@ -306,84 +287,13 @@ const EditPost = () => {
             )}
           </div>
 
-          <div className="my-4">
-            <label
-              htmlFor="archivo"
-              className="block text-gray-700 font-bold mb-2"
-            >
-              Selecciona una imagen
-            </label>
-            <div className="flex items-center justify-center w-full">
-              <label
-                htmlFor="archivo"
-                className="flex flex-col items-center px-4 py-2 bg-white rounded-md shadow-md tracking-wide border border-gray-400 cursor-pointer hover:bg-gray-100 hover:border-gray-500"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth="1.5"
-                  stroke="currentColor"
-                  className="w-6 h-6"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5"
-                  />
-                </svg>
-
-                <span className="mt-2 text-sm leading-normal">
-                  Seleccionar archivo
-                </span>
-                <input
-                  onChange={inputFile}
-                  multiple
-                  type="file"
-                  className="hidden"
-                  accept="image/*"
-                  id="archivo"
-                />
-              </label>
-            </div>
-          </div>
-
-          <div className="flex flex-wrap justify-center y-3 gap-2">
-            {!form.files.length
-              ? ""
-              : form.files.map((file, i) => {
-                  return (
-                    <div
-                      className="flex flex-col justify-center items-center h-[50px]"
-                      key={i}
-                    >
-                      <span
-                        onClick={() => fileDelete(file)}
-                        className="cursor-pointer bg-red-400 px-2 py-1"
-                      >
-                        X
-                      </span>
-                      <img
-                        className="h-full"
-                        src={URL.createObjectURL(file)}
-                        alt="a"
-                      />
-                    </div>
-                  );
-                })}
-          </div>
-
           <div className="flex gap-4">
             <button
               type="submit"
-              disabled={!formComplete}
-              className={`${
-                !formComplete
-                  ? "bg-red-500 hover:bg-red-500 cursor-not-allowed opacity-50"
-                  : "bg-green-500 hover:bg-green-600"
+              className={`${"bg-green-500 hover:bg-green-600"
               } text-white font-bold py-2 px-4 rounded`}
             >
-              Subir
+              Editar
             </button>
             <button
               className=" text-gray-100 font-bold py-2 px-4 rounded bg-stone-500 hover:bg-stone-400 hover:text-gray-800"

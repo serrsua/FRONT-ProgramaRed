@@ -6,6 +6,7 @@ import Fav from "./Fav";
 import Trash from "./Trash";
 import Edit from "./Edit";
 import { useEffect } from "react";
+import Comments from "./Comments";
 
 const PostDetail = ({ toggleDetails }) => {
   const post = useSelector((state) => state.actualPost);
@@ -25,6 +26,11 @@ const PostDetail = ({ toggleDetails }) => {
   }, [dispatch]);
 
   console.log("postFiles", post.PostFiles);
+
+  const userId = localUser
+  const postId = post.id
+
+  console.log(post)
 
   return (
     <div
@@ -119,6 +125,10 @@ const PostDetail = ({ toggleDetails }) => {
                 );
               }
             })}
+      </div>
+
+      <div>
+        <Comments comments={post.Comments} userId={userId} postId={postId}/>
       </div>
 
       <div className="flex gap-2 mt-3">

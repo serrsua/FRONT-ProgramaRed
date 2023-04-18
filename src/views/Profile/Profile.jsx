@@ -28,6 +28,7 @@ const Profile = ({ toggleDetails }) => {
   const [errors, setErrors] = useState({
     email: "",
   });
+  const [disable, setDisable] = useState(false);
 
   let userId = localStorage.getItem("id");
 
@@ -61,15 +62,32 @@ const Profile = ({ toggleDetails }) => {
   };
 
   const updateEmail = async () => {
+    setDisable(true)
     let correo = email.email;
-    const { data } = await axios.put(`/user/${userId}`, { email: correo });
-    Swal.fire({
-      icon: "success",
-      title: "Email actualizado",
-      text: data,
-    }).then((result) => {
-      if (result.isConfirmed) window.location.reload();
-    });
+    try {
+      const { data } = await axios.put(`/user/${userId}`, { email: correo });
+      const response = await axios.post('/subcriptionsEmail', {
+        username:user.username, 
+        email:correo,
+        type:"Registro"  
+      })
+      if (response.status === 200) {
+        Swal.fire({
+          icon: "success",
+          title: data,
+          text: response.data,
+        }).then((result) => {
+          if (result.isConfirmed) window.location.reload();
+        });
+      }
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: error.response.data,
+        showConfirmButton: false,
+        timer: 2000,
+      })
+    };
   };
 
   const updateLinks = async () => {
@@ -337,9 +355,11 @@ const Profile = ({ toggleDetails }) => {
                         </p>
                         <button
                           disabled={
-                            email.length !== 0 && !errors.email ? false : true
+                            email.length !== 0 && !errors.email && !disable ? false : true
                           }
-                          className=" p-2 m-4 self-center font-medium rounded-md bg-ligthGreen transition-all duration-500 hover:bg-mediumGreen hover:scale-110"
+                          className={email.length !== 0 && !errors.email && !disable ? 
+                            "p-2 m-4 self-center font-medium rounded-md bg-ligthGreen transition-all duration-500 hover:bg-mediumGreen hover:scale-110" : 
+                            "p-2 m-4 self-center font-medium rounded-md bg-ligthGreen disabled:opacity-60"}
                         >
                           Actualizar correo
                         </button>

@@ -1,49 +1,21 @@
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink, useLocation,useNavigate } from "react-router-dom";
 import logo from "../images/logoNombre.png";
 import { clearFilters } from "../redux/actions";
 import { useDispatch } from "react-redux";
 import { useState, useEffect } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
-import axios from "axios";
 import Swal from "sweetalert2";
 
 const NavBar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const { logout, user, getAccessTokenSilently } = useAuth0();
+  const { logout } = useAuth0();
   const { pathname } = useLocation();
   const dispatch = useDispatch();
   const [id, setId] = useState("");
+  const navigate = useNavigate();
 
-  useEffect(() => {
-    async function fetchData() {
-      // You can await here
-      try {
-        if (user) {
-          const token = await getAccessTokenSilently();
-          await axios.get("/usercreate", {
-            headers: {
-              authorization: `Bearer ${token}`,
-            },
-          });
-          let { data } = await axios(`/user/username/${user.nickname}`);
-          setId(data[0].id);
-
-          localStorage.setItem("username", JSON.stringify(data[0].username));
-          localStorage.setItem("id", JSON.stringify(data[0].id));
-        }
-      } catch (e) {
-        console.log(e.message);
-      }
-    }
-    fetchData();
-  }, [getAccessTokenSilently, user]);
-
-  let userId;
-  if (!user) {
-    userId = localStorage.getItem("id");
-  } else {
-    userId = id; //desde el estado
-  }
+  
+  let userId = localStorage.getItem("id");
   let isUserLogged;
 
   if (pathname === `/profile/${userId}`) isUserLogged = true;

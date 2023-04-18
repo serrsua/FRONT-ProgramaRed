@@ -2,10 +2,11 @@ import { useNavigate } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import Swal from "sweetalert2";
 import { useEffect } from "react";
+import axios from "axios";    
 
 const LoginAuth0 = () => {
   const navigate = useNavigate();
-  const { loginWithPopup, isAuthenticated } = useAuth0();
+  const { user, loginWithPopup, isAuthenticated,getAccessTokenSilently,logout } = useAuth0();
   console.log(isAuthenticated);
 
   const handleClick = (connection) => {
@@ -26,17 +27,78 @@ const LoginAuth0 = () => {
   };
 
   useEffect(() => {
+    async function fetchData() {
+    
     if (isAuthenticated){
-      Swal.fire({
-        position: "center",
-        icon: "success",
-        title: "Te Logueaste correctamente",
-        showConfirmButton: true,
-        didClose: () => {
-          if (isAuthenticated) navigate("/home");
-        },
-      });
+
+          const token = await getAccessTokenSilently();
+          const responseUserCreate = await axios.get("/usercreate", {
+            headers: {
+              authorization: `Bearer ${token}`,
+            },
+          });
+
+          let { data } = await axios(`/user/username/${user.nickname}`);
+          localStorage.setItem("username", JSON.stringify(data[0].username));
+          localStorage.setItem("id", JSON.stringify(data[0].id));
+        
+            if (!data[0].isActive) {
+                console.log(data[0].isActive)
+                await Swal.fire({
+                  position: 'center',
+                  icon: 'error',
+                  title: 'Tu cuenta se encuentra baneada',
+                  text: "Por favor comunicate con los admins del sitio",
+                  showConfirmButton: true
+                })
+                logout()
+                navigate("/")
+              }
+
+            if (responseUserCreate.data.created){//si es nuevo usuario 
+              try {
+                  if (!data[0].email) throw new Error('Te logueaste correctamente, sin embargo no se pudo enviar el correo de bienvenida, registra tu email')
+                  const response = await axios.post('/subcriptionsEmail', {
+                  username:data[0].username, 
+                  email:data[0].email,
+                  type:"Registro" 
+                  })
+
+                if (response.status===200){
+                  await Swal.fire({
+                    icon: "success",
+                    title: responseUserCreate.data.msg,
+                    text: response.data,
+                    showConfirmButton: true,
+                    didClose: () => {
+                      navigate(`/home`);
+                    }
+                  })
+            }
+            }catch(error){
+              Swal.fire({
+                icon: "error",
+                text: error.message ? error.message : error.response.data,
+                showConfirmButton: true,
+                didClose: () => {
+                  navigate(`/profile/${data[0].id}`);
+                }
+              })
+            }
+       }else{
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "Te Logueaste correctamente",
+          showConfirmButton: true,
+          didClose: () => {
+            if (isAuthenticated) navigate(`/profile/${data[0].id}`);
+          },
+        });
+      }
     } ;
+   }
+   fetchData()
   }, [isAuthenticated, navigate]);
 
   return (
