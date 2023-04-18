@@ -19,11 +19,11 @@ const PostDetail = ({ toggleDetails }) => {
     toggleDetails();
   };
 
-  // useEffect(() => {
-  //   return () => {
-  //     dispatch(clearDetail());
-  //   };
-  // }, [dispatch]);
+  useEffect(() => {
+    return () => {
+      dispatch(clearDetail());
+    };
+  }, [dispatch]);
 
   const userId = localUser;
   const postId = post.id;
