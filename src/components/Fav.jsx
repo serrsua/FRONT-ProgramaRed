@@ -8,14 +8,6 @@ import Swal from "sweetalert2";
 
 const Fav = ({ postId, localUser }) => {
   const dispatch = useDispatch();
- 
-
-
-
-  useEffect(() => {
-    let id = localStorage.getItem("id");
-    dispatch(getFavorites(id));       
-  }, [dispatch]);
 
   const [clicked, setClicked] = useState(false);
   const allFavorites = useSelector((state) => state.favorites);
