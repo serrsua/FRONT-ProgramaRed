@@ -10,6 +10,7 @@ import person from "../../images/person.png";
 import NotFound from "../../components/NotFound";
 import Validate from "./Validate.js";
 import Loading from "../../components/Loading";
+import Report from "../../components/Report";
 
 const Profile = ({ toggleDetails }) => {
   const dispatch = useDispatch();
@@ -29,6 +30,7 @@ const Profile = ({ toggleDetails }) => {
     email: "",
   });
   const [disable, setDisable] = useState(false);
+  const [reported, setReported] = useState(false);
 
   let userId = localStorage.getItem("id");
 
@@ -231,7 +233,14 @@ const Profile = ({ toggleDetails }) => {
                     alt="ProfilePhoto"
                     className="rounded-full w-full object-cover object-center border-2 border-green-500"
                     referrerPolicy="no-referrer"
-                  />
+                    />
+                  <button onClick={()=> setReported(true)} type="button" >Reportar</button>
+                  {
+                    reported && <Report onCancel={()=> setReported(false)} username={user.username} type={"user"} />
+                  }
+                  {
+                    reported && <span className=" cursor-pointer" onClick={()=> setReported(false)} >Cancelar</span>
+                  }
                 </>
               ) : (
                 <>
