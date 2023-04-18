@@ -25,8 +25,6 @@ const PostDetail = ({ toggleDetails }) => {
     };
   }, [dispatch]);
 
-  console.log("postFiles", post.PostFiles);
-
   const userId = localUser;
   const postId = post.id;
 
@@ -37,7 +35,7 @@ const PostDetail = ({ toggleDetails }) => {
       >
         <div>
           <button
-            className=" absolute right-1/2 top-2 bg-red-600 px-2 py-1 text-white font-bold rounded transition-all hover:scale-110 hover:bg-red-700 border border-black"
+            className=" absolute left-1/2 top-2 bg-red-600 px-2 py-1 text-white font-bold rounded transition-all hover:scale-110 hover:bg-red-700 border border-black"
             onClick={() => {
               toggleDetails();
               dispatch(clearDetail());
@@ -45,7 +43,7 @@ const PostDetail = ({ toggleDetails }) => {
           >
             X
           </button>
-          <div className="flex items-center mb-2">
+          <div className="flex items-center mb-2 mt-3">
             <div className="bg-green-300 w-12 h-12 rounded-full mr-3">
               <img
                 src={
