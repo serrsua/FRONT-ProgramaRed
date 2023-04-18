@@ -15,6 +15,7 @@ import About from "./views/About";
 import NotFound from "./components/NotFound";
 import DashboardAdmin from "./views/Admin";
 import EditPost from "./views/EditPost/EditPost";
+import { ReportDetail } from "./views/ReportDetail";
 import RequireAuth from "./views/RequireAuth ";
 
 function App() {
@@ -40,6 +41,10 @@ function App() {
         <Route path="/profile/:id" element={<RequireAuth user={actualUser}><Profile toggleDetails={toggleDetails} /></RequireAuth>  } />
         <Route path="/favorites" element={ <RequireAuth user={actualUser}><Favorites toggleDetails={toggleDetails} /></RequireAuth> } />
         <Route path="/signUp" element={<SignUp />} />
+        <Route path="/premium" element={<Payment />} />
+        <Route path="/admin" element={<DashboardAdmin />} />
+        <Route path="/admin/reports/:id" element={<ReportDetail />} />
+        <Route path="/editPost" element={<EditPost />} />
         <Route path="/premium" element={<RequireAuth user={actualUser}><Payment /></RequireAuth> } />
         <Route path="/admin" element={ <RequireAuth user={actualUser}><DashboardAdmin /></RequireAuth>} />
         <Route path="/editPost" element={ <RequireAuth user={actualUser}><EditPost/></RequireAuth> } />
