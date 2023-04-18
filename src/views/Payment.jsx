@@ -47,7 +47,7 @@ const Payment = () => {
         const script = document.createElement("script")
         script.type = "text/javascript"
         script.src = "https://www.mercadopago.com.ar/integrations/v1/web-payment-checkout.js"
-        script.title = "Hazte Premium!"
+        script.setAttribute("data-button-label", "Pagar con MercadoPago")
         script.setAttribute("data-preference-id", paymentResult.data.preferenceId)
         const form = document.getElementById(FORM_ID)
         form.appendChild(script)
