@@ -15,6 +15,7 @@ import About from "./views/About";
 import NotFound from "./components/NotFound";
 import DashboardAdmin from "./views/Admin";
 import EditPost from "./views/EditPost/EditPost";
+import { ReportDetail } from "./views/ReportDetail";
 
 function App() {
   const { pathname } = useLocation();
@@ -39,7 +40,8 @@ function App() {
         <Route path="/signUp" element={<SignUp />} />
         <Route path="/premium" element={<Payment />} />
         <Route path="/admin" element={<DashboardAdmin />} />
-        <Route path="/editPost" element={<EditPost/>} />
+        <Route path="/admin/reports/:id" element={<ReportDetail />} />
+        <Route path="/editPost" element={<EditPost />} />
       </Routes>
     </div>
   );
