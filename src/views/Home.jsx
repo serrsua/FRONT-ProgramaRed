@@ -15,21 +15,23 @@ const Home = ({ toggleDetails }) => {
   const [message, setMessage] = useState("")
 
   // const posts = useSelector(state => state.posts)
-
   useEffect(() => {
     dispatch(getAllPosts());
     if (searchParams.get('status') === 'approved'
       && searchParams.get('payment_id')
       && localStorage.getItem('id')) {
       completePayment()
-    } else {
+    } else if (searchParams.get("status") === "rejected") {
       Swal.fire({
         icon: "error",
         title: "Error al realizar el pago",
         text: "No se pudo realizar el pago",
-        showConfirmButton: true
+        showConfirmButton: true,
       })
     }
+    searchParams.delete("status")
+    searchParams.delete("payment_id")
+    console.log(searchParams.get("status"));
   }, [dispatch]);
 
   useEffect(() => {
@@ -68,8 +70,6 @@ const Home = ({ toggleDetails }) => {
             timer: 2000,
           })
         }
-        searchParams.delete('status')
-        searchParams.delete('payment_id')
       }
     } catch (error) {
       console.log(error);

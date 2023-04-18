@@ -1,36 +1,35 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { initMercadoPago, Wallet } from "@mercadopago/sdk-react";
+// import { initMercadoPago, Wallet } from "@mercadopago/sdk-react";
 import Swal from "sweetalert2";
 import { getUserById } from "./../redux/actions";
 
-const MP_PUBLIC_KEY = "APP_USR-2e62776c-c02a-41fc-8124-39dda16ba58b";
-initMercadoPago(MP_PUBLIC_KEY, {
-  locale: "es-AR",
-});
+// const MP_PUBLIC_KEY = "TEST-5511f904-81cd-4d76-b9f5-72f286ec7543";
+// initMercadoPago(MP_PUBLIC_KEY, {
+//   locale: "es-AR",
+// });
+
+const FORM_ID = "payment-form"
 
 const Payment = () => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.actualUser);
   let userId = localStorage.getItem("id");
-
+  const [cargando, setCargando] = useState(false);
   useEffect(() => {
     dispatch(getUserById(userId));
+    if (user.isPremium === false) {
+      onSubmit()
+    }
   }, []);
 
-  console.log(user);
-  // const [preferenceId, setPreferenceId] = useState("");
-  const [cargando, setCargando] = useState(true);
-  const [procesando, setProcesando] = useState(false);
+  // console.log(user);
 
   const onSubmit = async () => {
-    // callback llamado al hacer clic en Wallet Brick
-    // esto es posible porque el ladrillo es un botón
-    // en este momento del envío, debe crear la preferencia
-    return new Promise((resolve, reject) => {
-      setProcesando(true);
-      axios
+    try {
+      setCargando(true)
+      const paymentResult = await axios
         .post("/subcriptions", {
           title: "Subscripcion Premium",
           description:
@@ -41,41 +40,43 @@ const Payment = () => {
             email: user.email,
           },
         })
-        .then((response) => response.data)
-        .then((data) => {
-          // resolver la promesa con el ID de la preferencia
-          // setInitialization({ preferenceId: data.preferenceId })
-          resolve(data.preferenceId);
-        })
-        .catch((error) => {
-          // manejar la respuesta de error al intentar crear preferencia
-          console.error(error);
-          reject(error);
-        })
-        .finally(() => {
-          setProcesando(false);
-        });
-    });
+
+      if (paymentResult.status === 200
+        && paymentResult.data.preferenceId) {
+        setCargando(true)
+        const script = document.createElement("script")
+        script.type = "text/javascript"
+        script.src = "https://www.mercadopago.com.ar/integrations/v1/web-payment-checkout.js"
+        script.title = "Hazte Premium!"
+        script.setAttribute("data-preference-id", paymentResult.data.preferenceId)
+        const form = document.getElementById(FORM_ID)
+        form.appendChild(script)
+        setCargando(false)
+      }
+      setCargando(false)
+    } catch (error) {
+      console.log(error);
+      Swal.fire({
+        icon: "error",
+        title: "Error crear la preferencia",
+        text: error.message,
+        showConfirmButton: true
+      })
+      setCargando(false)
+    }
   };
 
-  const onReady = () => {
-    setCargando(false);
-  };
-
-  const onError = (error) => {
-    console.error("Error:", error);
-  };
   return (
     <div className="DIV_PREMIUM h-full w-full pt-10 row-span-3">
       <h2 className="text-center text-2xl font-bold mx-auto my-2">
         {user.isPremium === false ? (
           <>
             Aún no eres{" "}
-            <a class="underline decoration-indigo-500/30">PREMIUM</a>😕
+            <a className="underline decoration-indigo-500/30">PREMIUM</a>😕
           </>
         ) : (
           <>
-            Ya eres <a class="underline decoration-indigo-500/30">PREMIUM</a>😁
+            Ya eres <a className="underline decoration-indigo-500/30">PREMIUM</a>😁
           </>
         )}
       </h2>
@@ -204,11 +205,16 @@ const Payment = () => {
                 </tr>
               </tbody>
             </table>
+            <form id={FORM_ID} method="GET">
+              {
+                cargando && <span className="text-2xl text-green-950">Cargando...</span>
+              }
+            </form>
           </>
         ) : (
           <>
             <p>Ya cuentas con estos beneficios adicionales en tu cuenta</p>
-            <ul class="list-disc">
+            <ul className="list-disc">
               <li>
                 Subir y descargar archivos
                 <svg
@@ -250,23 +256,18 @@ const Payment = () => {
           </>
         )}
 
-         <Wallet
-            customization={{
-              visual: { buttonBackground: "default", borderRadius: "8rem" },
-            }}
-            onReady={onReady}
-            onSubmit={onSubmit}
-            onError={onError}
-          />
-        {cargando && (
+        {/* <Wallet
+          customization={{
+            visual: { buttonBackground: "default", borderRadius: "8rem" },
+          }}
+          initialization={{ redirectMode: "modal" }}
+          onReady={onReady}
+          onSubmit={onSubmit}
+          onError={onError}
+        /> */}
+        {/* {cargando && (
           <span className="text-sm text-orange-700 font-bold">Cargando...</span>
-        )}
-
-        {procesando && (
-          <span className="text-sm text-orange-700 font-bold">
-            Procesando Pago...
-          </span>
-        )}
+        )} */}
       </div>
     </div>
   );
