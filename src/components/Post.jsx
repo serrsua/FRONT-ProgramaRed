@@ -88,7 +88,6 @@ const Post = ({ post, user, toggleDetails }) => {
                     #{tag.name}
                   </button>
                 </NavLink>
-                
               );
             } else {
               return (
@@ -104,7 +103,6 @@ const Post = ({ post, user, toggleDetails }) => {
           })}
           <Rating
           postId={localPost.id}
-          //localUser={userId} 
           />
         </div>
       </div>
