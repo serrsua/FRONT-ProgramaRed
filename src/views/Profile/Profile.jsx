@@ -64,15 +64,15 @@ const Profile = ({ toggleDetails }) => {
   };
 
   const updateEmail = async () => {
-    setDisable(true)
+    setDisable(true);
     let correo = email.email;
     try {
       const { data } = await axios.put(`/user/${userId}`, { email: correo });
-      const response = await axios.post('/subcriptionsEmail', {
-        username:user.username, 
-        email:correo,
-        type:"Registro"  
-      })
+      const response = await axios.post("/subcriptionsEmail", {
+        username: user.username,
+        email: correo,
+        type: "Registro",
+      });
       if (response.status === 200) {
         Swal.fire({
           icon: "success",
@@ -88,12 +88,11 @@ const Profile = ({ toggleDetails }) => {
         title: error.response.data,
         showConfirmButton: false,
         timer: 2000,
-      })
-    };
+      });
+    }
   };
 
   const updateLinks = async () => {
-    
     if (links.length === 0) {
       Swal.fire({
         icon: "error",
@@ -234,21 +233,32 @@ const Profile = ({ toggleDetails }) => {
                     alt="ProfilePhoto"
                     className="rounded-full w-full object-cover object-center border-2 border-green-500"
                     referrerPolicy="no-referrer"
+                  />
+                  <button onClick={() => setReported(true)} type="button">
+                    Reportar
+                  </button>
+                  {reported && (
+                    <Report
+                      onCancel={() => setReported(false)}
+                      username={user.username}
+                      type={"user"}
                     />
-                  <button onClick={()=> setReported(true)} type="button" >Reportar</button>
-                  {
-                    reported && <Report onCancel={()=> setReported(false)} username={user.username} type={"user"} />
-                  }
-                  {
-                    reported && <span className=" cursor-pointer" onClick={()=> setReported(false)} >Cancelar</span>
-                  }
+                  )}
+                  {reported && (
+                    <span
+                      className=" cursor-pointer"
+                      onClick={() => setReported(false)}
+                    >
+                      Cancelar
+                    </span>
+                  )}
                 </>
               ) : (
                 <>
                   <img
                     src={user.profileImage ? user.profileImage : person}
                     alt="ProfilePhoto"
-                    className="rounded-full w-full object-cover object-center border-2 border-green-500"
+                    className={`rounded-full w-full object-cover object-center border-2  ${user.isPremium ? " border-[5px] border-orange-200 animate-pulse-border " : " border-green-500"}`}
                     referrerPolicy="no-referrer"
                   />
                   <div className="p-2 absolute bottom-[-20px] self-center font-medium rounded-md bg-ligthGreen transition-all duration-500 hover:bg-mediumGreen hover:scale-110">
@@ -313,9 +323,35 @@ const Profile = ({ toggleDetails }) => {
 
             <div className="w-full DIV_DESCRIPTION">
               <div className="grid space-y-4 justify-items-center">
-                <h1 className="text-center text-3xl font-bold">
+                <p className=" flex text-center text-3xl font-bold">
                   {user.username}
-                </h1>
+                  {user.isPremium ? (
+                    <svg
+                      fill="none"
+                      height="120"
+                      viewBox="0 0 120 120"
+                      width="120"
+                      xmlns="http://www.w3.org/2000/svg"
+                      className=" w-10 h-10"
+                    >
+                      <path
+                        d="m60 13.7 10.7 6.2h12.4l6.2 10.8 10.8 6.2v12.4l6.2 10.7-6.2 10.7v12.4l-10.8 6.2-6.2 10.8h-12.4l-10.7 6.2-10.7-6.2h-12.4l-6.2-10.8-10.8-6.2v-12.4l-6.2-10.7 6.2-10.7v-12.4l10.8-6.2 6.2-10.8h12.4z"
+                        fill="#647eff"
+                      />
+                      <path
+                        d="m60 93.9c-18.7 0-33.9-15.2-33.9-33.9s15.2-33.9 33.9-33.9 33.9 15.2 33.9 33.9-15.2 33.9-33.9 33.9zm0-64.9c-17.1 0-31 13.9-31 31s13.9 31 31 31 31-13.9 31-31-13.9-31-31-31z"
+                        fill="#fff"
+                      />
+                      <path
+                        d="m56.3 72.6-14.7-11.7c-1.2-1-1.4-2.7-.4-3.9s2.7-1.4 3.9-.4l12.6 10.1 16.8-18.8c1-1.1 2.8-1.2 3.9-.2s1.2 2.8.2 3.9l-18.5 20.7c-1 1.1-2.7 1.2-3.8.3z"
+                        fill="#ffd77a"
+                      />
+                    </svg>
+                  ) : (
+                    ""
+                  )}
+                </p>
+
                 <div className="text-center text-lg text-black-700 font-medium">
                   {!user.email && !formEmail ? (
                     <div className="flex items-center relative w-full h-full p-3 text-lg border font-medium border-none">
@@ -365,11 +401,15 @@ const Profile = ({ toggleDetails }) => {
                         </p>
                         <button
                           disabled={
-                            email.length !== 0 && !errors.email && !disable ? false : true
+                            email.length !== 0 && !errors.email && !disable
+                              ? false
+                              : true
                           }
-                          className={email.length !== 0 && !errors.email && !disable ? 
-                            "p-2 m-4 self-center font-medium rounded-md bg-ligthGreen transition-all duration-500 hover:bg-mediumGreen hover:scale-110" : 
-                            "p-2 m-4 self-center font-medium rounded-md bg-ligthGreen disabled:opacity-60"}
+                          className={
+                            email.length !== 0 && !errors.email && !disable
+                              ? "p-2 m-4 self-center font-medium rounded-md bg-ligthGreen transition-all duration-500 hover:bg-mediumGreen hover:scale-110"
+                              : "p-2 m-4 self-center font-medium rounded-md bg-ligthGreen disabled:opacity-60"
+                          }
                         >
                           Actualizar correo
                         </button>
@@ -504,7 +544,7 @@ const Profile = ({ toggleDetails }) => {
                         <form className="flex items-center justify-center flex-wrap">
                           <div>
                             <input
-                              onChange={(e) => {                                
+                              onChange={(e) => {
                                 setLinks(e.target.value);
                               }}
                               value={links}
@@ -613,7 +653,12 @@ const Profile = ({ toggleDetails }) => {
                     : "No hay publicaciones"}
                 </h2>
                 <div className="DIV_ORDER mt-2 ">
-                  <select className="rounded-lg shadow-md border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none text-gray-600 font-medium py-2 px-4" name="" id="" onChange={orderAlph}>
+                  <select
+                    className="rounded-lg shadow-md border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none text-gray-600 font-medium py-2 px-4"
+                    name=""
+                    id=""
+                    onChange={orderAlph}
+                  >
                     <option value="" hidden>
                       Ordenar
                     </option>
