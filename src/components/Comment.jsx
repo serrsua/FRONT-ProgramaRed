@@ -1,8 +1,12 @@
 import Swal from "sweetalert2";
 import axios from "axios";
 import { NavLink } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { getPostById } from "../redux/actions";
 
 const Comment = ({ comment, user, userId, id, postId, toggleDetails }) => {
+    const dispatch = useDispatch()
+
   const deleteComment = async () => {
     Swal.fire({
       title: "¿Estás seguro?",
@@ -23,7 +27,7 @@ const Comment = ({ comment, user, userId, id, postId, toggleDetails }) => {
           icon: "success",
           timer: 1200,
         });
-        window.location.reload();
+        dispatch(getPostById(postId))
       }
     });
   };
@@ -48,6 +52,7 @@ const Comment = ({ comment, user, userId, id, postId, toggleDetails }) => {
                     title: "Comentario Editado",
                     text: data,
                   })
+                  dispatch(getPostById(postId))
             } catch (error) {
                 Swal.fire({
                     icon: "error",
