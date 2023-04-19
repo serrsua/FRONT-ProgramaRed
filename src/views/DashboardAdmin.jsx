@@ -2,10 +2,12 @@ import React, { useEffect, useState } from 'react'
 import { Grid, Col, Card, Text, Metric, TabList, Tab } from "@tremor/react";
 import axios from 'axios';
 import { CommonTagsGraph } from '../components/CommonTagsGraph';
-import { CounUsersCard } from "../components/CounUsersCard";
+import { CountUsersCard } from "../components/CountUsersCard";
 import { CountPostByTagCard } from '../components/CountPostByTagCard';
 import { UsersTable } from '../components/UsersTable';
 import Swal from 'sweetalert2';
+import { ReportsGraph } from '../components/ReportsGraph';
+import { ReportsTable } from '../components/ReportsTable';
 
 export default function DashboardAdmin() {
     const [siteUsers, setSiteUsers] = useState(0)
@@ -13,6 +15,12 @@ export default function DashboardAdmin() {
     const [siteTags, setSiteTags] = useState([])
     const [selectedView, setSelectedView] = useState(1)
     const [users, setUsers] = useState([])
+    const [countedReports, setCountedReports] = useState({
+        reportedUsers: [],
+        reportedPosts: [],
+        reportedComments: []
+    })
+    const [allReports, setAllReports] = useState([])
     const [tag, setTag] = useState("")
 
     const countUsers = async (isPremium) => {
@@ -117,11 +125,41 @@ export default function DashboardAdmin() {
             })
         }
     }
+
+    const countReports = async () => {
+        try {
+            const res = await axios.get("/reports")
+            if (res.status === 200) {
+                console.log(res.data);
+                setCountedReports({
+                    reportedUsers: res.data.reportedUsers.map(ru => ({ username: ru.username, cantidad: Number(ru.cantidad) })),
+                    reportedPosts: res.data.reportedPosts.map(rp => ({ post: rp.post, cantidad: Number(rp.cantidad) })),
+                    reportedComments: res.data.reportedComments.map(rc => ({ comment: rc.comentario, cantidad: Number(rc.cantidad) }))
+                })
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    const getAllReports = async (search) => {
+        try {
+            let query = search ? `?search=${search}` : ""
+            const res = await axios.get(`/allReports${query}`)
+            if (res.status === 200) {
+                setAllReports(res.data)
+                console.log(res.data);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
     useEffect(() => {
         countUsers()
         countPostByTag()
         commonTags()
         getAllUsers()
+        countReports()
+        getAllReports()
     }, [])
     return (
         <div className='m-auto text-center'>
@@ -129,34 +167,47 @@ export default function DashboardAdmin() {
             <TabList defaultValue={selectedView}
                 className='w-screen mt-6'
                 onValueChange={value => setSelectedView(Number(value))}>
-                <Tab value={1} text='Principal' />
-                <Tab value={2} text='Detalles' />
+                <Tab value={1} text='Grafica Usuarios y Posts' />
+                <Tab value={2} text='Detalle Usuarios' />
+                <Tab value={3} text='Grafica Reportes' />
+                <Tab value={4} text='Detalle Reportes' />
             </TabList>
             {
                 selectedView === 1 ? (
-                    <>
-                        <Grid className="gap-5 mt-3"
-                            numCols={1}
-                            numColsMd={2}
-                            numColsLg={2}>
-                            <Col>
-                                <CounUsersCard countUsers={siteUsers} onSearch={countUsers} />
+                    <div className='gap-2 my-2 mx-3'>
+                        <div className='w-5/6 m-auto'>
+                            <CommonTagsGraph data={siteTags} />
+                        </div>
+                        <Grid numCols={1} numColsSm={1} numColsMd={2} className='gap-3 my-3' >
+                            <Col className='mx-2'>
+                                <CountUsersCard countUsers={siteUsers} onSearch={countUsers} />
                             </Col>
-                            <Col>
+                            <Col className='mx-2'>
                                 <CountPostByTagCard
                                     countPosts={sitePosts}
                                     onSearch={countPostByTag}
                                     tag={tag} />
                             </Col>
                         </Grid>
-                        <CommonTagsGraph data={siteTags} />
-                    </>
-                ) : (
+                    </div>
+
+                ) : selectedView === 2 ? (
                     <UsersTable users={users}
                         onSearch={getAllUsers}
                         onSearchBan={getActiveUsers}
                         onDeleteUser={confirmDeleteUser}
                         onUbanUser={confirmUnbanUser} />
+                ) : selectedView === 3 ? (
+                    <>
+                        <ReportsGraph
+                            reportedUsers={countedReports.reportedUsers}
+                            reportedPosts={countedReports.reportedPosts}
+                            reportedComments={countedReports.reportedComments} />
+                    </>
+                ) : (
+                    <>
+                        <ReportsTable reports={allReports} onSearch={getAllReports} />
+                    </>
                 )
             }
         </div>

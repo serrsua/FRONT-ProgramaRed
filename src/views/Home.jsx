@@ -31,7 +31,7 @@ const Home = ({ toggleDetails }) => {
     }
     searchParams.delete("status")
     searchParams.delete("payment_id")
-    console.log(searchParams.get("status"));
+    // console.log(searchParams.get("status"));
   }, [dispatch]);
 
   useEffect(() => {

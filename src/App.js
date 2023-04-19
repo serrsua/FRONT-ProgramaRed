@@ -13,8 +13,10 @@ import FalseScreen from "./components/FalseScreen";
 import Detail from "./views/Detail";
 import About from "./views/About";
 import NotFound from "./components/NotFound";
-import DashboardAdmin from "./views/Admin";
+import DashboardAdmin from "./views/DashboardAdmin";
 import EditPost from "./views/EditPost/EditPost";
+import { ReportDetail } from "./views/ReportDetail";
+import RequireAuth from "./views/RequireAuth ";
 
 function App() {
   const { pathname } = useLocation();
@@ -25,21 +27,21 @@ function App() {
   return (
     <div className={`DIV_APP grid justify-center bg-veryLigthGreen lg:grid-cols-desktop_lg xl:grid-cols-desktop_xl ${pathname === "/" ? "lg:grid-cols-1 justify-items-center" : ""} ${pathname === "/home" ? "h-screen" : ""}${pathname === "/premium" ? "grid-rows-4 lg:grid-rows-1" : ""}${pathname === "/about" ? "grid-rows-1 lg:grid-cols-1" : ""}`}>
       {/*  {pathname !== "/" && pathname !== "/signUp" && pathname !== "/about" && <NavBar />} */}
-      {(pathname.startsWith("/profile") || pathname === "/home" || pathname === "/createPost" || pathname === "/editPost" || pathname === "/favorites" || pathname === "/singUp" || pathname === "/premium") && <NavBar />}
+      {(pathname.startsWith("/profile") || pathname === "/home" || pathname === "/createPost" || pathname === "/editPost" || pathname === "/favorites" || pathname === "/singUp" || pathname === "/premium") && <RequireAuth><NavBar /></RequireAuth>}
       {showDetails && <FalseScreen isView={showDetails} toggleDetails={toggleDetails} />}
       {showDetails && <Detail toggleDetails={toggleDetails} />}
       <Routes>
         <Route path="*" element={<NotFound />} />
         <Route path="/" element={<Landing />} />
         <Route path="/about" element={<About />} />
-        <Route path="/home" element={<Home toggleDetails={toggleDetails} />} />
-        <Route path="/createPost" element={<CreatePost />} />
-        <Route path="/profile/:id" element={<Profile toggleDetails={toggleDetails} />} />
-        <Route path="/favorites" element={<Favorites toggleDetails={toggleDetails} />} />
+        <Route path="/home" element={ <RequireAuth><Home toggleDetails={toggleDetails} /></RequireAuth>} />
+        <Route path="/createPost" element={<RequireAuth><CreatePost /></RequireAuth>} />
+        <Route path="/profile/:id" element={<RequireAuth><Profile toggleDetails={toggleDetails} /></RequireAuth>  } />
+        <Route path="/favorites" element={ <RequireAuth><Favorites toggleDetails={toggleDetails} /></RequireAuth> } />
         <Route path="/signUp" element={<SignUp />} />
-        <Route path="/premium" element={<Payment />} />
-        <Route path="/admin" element={<DashboardAdmin />} />
-        <Route path="/editPost" element={<EditPost/>} />
+        <Route path="/premium" element={<RequireAuth><Payment /></RequireAuth> } />
+        <Route path="/admin" element={ <DashboardAdmin />} />
+        <Route path="/editPost" element={ <RequireAuth><EditPost/></RequireAuth> } />
       </Routes>
     </div>
   );

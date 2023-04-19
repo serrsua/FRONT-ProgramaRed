@@ -75,25 +75,24 @@ const FormSignUp = () => {
     <div className="DIV_FORM_SIGN absolute flex items-center ">
       <img className="brightness-50 w-screen h-screen object-cover" src={img} />
 
-      <div className="  absolute top-20 left-0 w-full text-center text-lg md:text-xl text-black  opacity-70 shadow-xl font-mediun tracking-widest">
-        <div className="flex flex-col max-w-md mx-4 sm:mx-auto p-6 bg-slate-400 rounded-md shadow-md ">
-          <h3 className=" self-center text-3xl font-bold text-green-700 mb-6">
+      <div className="  absolute top-20 left-0 w-full text-lg md:text-xl text-black font-mediun">
+        <div className="flex flex-col max-w-md mx-4 sm:mx-auto p-6 bg-slate-400 rounded-md shadow-xl bg-opacity-70">
+          <h3 className=" self-center text-3xl font-bold text-green-500 mb-6">
             Registrarse
           </h3>
           <p className=" self-center mb-10">
             Si tienes una cuenta logeate{" "}
-            <NavLink className=" font-bold text-green-700" to="/">
+            <NavLink className=" font-bold text-green-500 hover:text-green-400" to="/">
               aquí
             </NavLink>
           </p>
           <form
-            className=" gap-4
-         flex flex-col justify-center"
+            className=" gap-4 flex flex-col text-base"
             onSubmit={handleSubmit}
           >
-            <div className="flex flex-col font-thin ">
-              <label className="flex items-start sm:text-sm md:text-lg  ">
-                Nombre de usuario:{" "}
+            <div className="flex flex-col">
+              <label className="text-sm font-medium text-gray-700 mb-1">
+                Nombre de usuario:
               </label>
               <input
                 onChange={changeHandler}
@@ -101,47 +100,50 @@ const FormSignUp = () => {
                 type="text"
                 name="username"
                 value={form?.username}
-                className={`  placeholder-slate-500 bg-slate-300 border-gray-300 block w-full px-2 py-1 rounded-md shadow-white focus:outline-none focus:ring-2 transition duration-150 ease-in-out ${
+                className={`border border-gray-300 bg-transparent block w-full px-2 py-1 rounded-md shadow-sm focus:outline-none focus:ring-2 transition duration-150 ease-in-out placeholder:text-slate-200 ${
                   errors.username
                     ? "focus:border-red-500 focus:ring-red-500"
-                    : "focus:ring-green-700 focus:border-green-700"
+                    : "focus:ring-green-500 focus:border-green-500"
                 }
               `}
               />
               <span className="text-red-500 text-sm">{errors?.username}</span>
             </div>
 
-            <div className="flex flex-col font-thin  ">
-              <label className="flex items-start md:text-lg  ">Email: </label>
+            <div className="flex flex-col">
+              <label className="text-sm font-medium text-gray-700 mb-1">
+                Email:{" "}
+              </label>
               <input
                 onChange={changeHandler}
                 placeholder="Escribe tu email..."
                 type="text"
                 name="email"
                 value={form?.email}
-                className={`placeholder-slate-500 bg-slate-300 border-gray-300 block w-full px-2 py-1 rounded-md shadow-sm focus:outline-none focus:ring-2 transition duration-150 ease-in-out ${
+                className={`border border-gray-300 bg-transparent block w-full px-2 py-1 rounded-md shadow-sm focus:outline-none focus:ring-2 transition duration-150 ease-in-out placeholder:text-slate-200 ${
                   errors.email
                     ? "focus:border-red-500 focus:ring-red-500"
-                    : "focus:ring-green-700 focus:border-green-700"
+                    : "focus:ring-green-500 focus:border-green-500"
                 }
                 `}
               />
               <span className="text-red-500 text-sm">{errors?.email}</span>
             </div>
 
-            <div className="flex flex-col font-thin mb-10 ">
-              <label className="flex items-start md:text-lg  ">
+            <div className="flex flex-col">
+              <label className="text-sm font-medium text-gray-700 mb-1">
                 Contraseña:{" "}
               </label>
               <input
                 onChange={changeHandler}
+                placeholder="Escribe tu contraseña..."
                 type="password"
                 name="password"
                 value={form?.password}
-                className={`placeholder-slate-500 bg-slate-300 border-gray-300 block w-full px-2 py-1 rounded-md shadow-sm focus:outline-none focus:ring-2 transition duration-150 ease-in-out ${
+                className={`border border-gray-300 bg-transparent block w-full px-2 py-1 rounded-md shadow-sm focus:outline-none focus:ring-2 transition duration-150 ease-in-out placeholder:text-slate-200 ${
                   errors.password
                     ? "focus:border-red-500 focus:ring-red-500"
-                    : "focus:ring-green-700 focus:border-green-700"
+                    : "focus:ring-green-500 focus:border-green-500"
                 }
               `}
               />
@@ -149,7 +151,12 @@ const FormSignUp = () => {
             </div>
 
             <button
-              className="flex self-center bg-mediumGreen text-white font-bold py-2 px-10 rounded-full"
+              className={`text-white font-semibold py-1 px-4 rounded mt-3 self-center
+              ${
+                errors.username || errors.email || errors.password
+                  ? "bg-red-500 hover:bg-red-500"
+                  : "bg-green-500 hover:bg-green-600"
+              }`}
               type="submit"
             >
               Enviar
