@@ -93,6 +93,7 @@ const Profile = ({ toggleDetails }) => {
   };
 
   const updateLinks = async () => {
+    
     if (links.length === 0) {
       Swal.fire({
         icon: "error",

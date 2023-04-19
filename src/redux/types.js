@@ -13,4 +13,3 @@ export const SET_CATEGORY = "SET_CATEGORY";
 export const GET_FAVORITES = "GET_FAVORITES";
 export const SELECT_EDIT_POST = "SELECT_EDIT_POST"
 export const DELETE_USER = "DELETE_USER";
-export const LOGIN_USER = "LOGIN_USER";

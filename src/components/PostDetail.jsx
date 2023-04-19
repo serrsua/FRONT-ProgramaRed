@@ -20,11 +20,11 @@ const PostDetail = ({ toggleDetails }) => {
     toggleDetails();
   };
 
-  useEffect(() => {
-    return () => {
-      dispatch(clearDetail());
-    };
-  }, [dispatch]);
+  // useEffect(() => {
+  //   return () => {
+  //     dispatch(clearDetail());
+  //   };
+  // }, [dispatch]);
 
   const userId = localUser;
   const postId = post.id;
@@ -32,7 +32,7 @@ const PostDetail = ({ toggleDetails }) => {
   return (
     <div className="DIV_POSTDETAIL fixed z-50 min-w-90% max-w-[90%] top-10 left-1/2 transform -translate-x-1/2 h-[90%] flex flex-col gap-2">
       <div
-        className={`bg-greenGray rounded-lg p-4 shadow-shadowBlack h-[60%] overflow-y-auto flex flex-col justify-between m-0`}
+        className={`bg-greenGray relative rounded-lg p-4 shadow-shadowBlack h-[60%] overflow-y-auto scrollbar-thin flex flex-col justify-between m-0`}
       >
         <button
           className=" absolute left-1/2 top-1 bg-red-600 px-2 py-1 rounded transition-all hover:scale-110 hover:bg-red-700 border border-black"
@@ -150,9 +150,12 @@ const PostDetail = ({ toggleDetails }) => {
             );
           })}
         </div>
-        <Rating postId={post?.id} />
+        <div className="lg:absolute bottom-0 right-0 p-2">
+          <p className="font-medium pr-1">Puntua el post</p>
+          <Rating postId={post?.id} />
+        </div>
       </div>
-      <div className="DIV_COMENTS bg-greenGray h-[40%] rounded-lg p-4 shadow-shadowBlack overflow-y-auto">
+      <div className="DIV_COMENTS bg-greenGray h-[40%] rounded-lg p-4 shadow-shadowBlack overflow-y-auto scrollbar-thin">
         <Comments
           toggleDetails={toggleDetails}
           comments={post.Comments}

@@ -21,20 +21,17 @@ const Post = ({ post, user, toggleDetails }) => {
 
   return localPost.isActive ? (
     <div className="DIV_POST px-4 py-1">
-      <div className=" bg-greenGray rounded-lg p-4 shadow-shadowBlack">
+      <div className=" bg-greenGray rounded-lg p-4 shadow-shadowBlack relative">
         <div className="flex items-center mb-3">
           <div className="bg-green-300 w-12 h-12 rounded-full mr-3">
-            <img
-              src={
-                user?.profileImage
-                  ? user.profileImage
-                  : person
-              }
-              alt={user?.profileImage}
-              className="w-full rounded-full"
-            />
+            <NavLink to={`/profile/${user?.id}`}>
+              <img
+                src={user?.profileImage ? user.profileImage : person}
+                alt={user?.profileImage}
+                className="w-full h-full rounded-full"
+              />
+            </NavLink>
           </div>
-
           <div className="flex-1">
             <NavLink
               to={`/profile/${user?.id}`}
@@ -44,22 +41,18 @@ const Post = ({ post, user, toggleDetails }) => {
             </NavLink>
             <p className="text-black text-xs font-medium">{`Creado el ${post.publishDate}`}</p>
           </div>
-          <Fav
-            userId={user?.id}
-            postId={localPost.id}
-            localUser={userId}
-          />
+          <Fav userId={user?.id} postId={localPost.id} localUser={userId} />
           {pathname === `/profile/${userId}` && localPost.id && (
             <>
-            <Edit post={localPost}/>
-            <Trash postId={localPost.id} />
+              <Edit post={localPost} />
+              <Trash postId={localPost.id} />
             </>
           )}
-          
+
           {Number(localPost.User?.id) === Number(userId) && (
             <>
-            <Edit post={localPost}/>
-            <Trash postId={localPost.id} />
+              <Edit post={localPost} />
+              <Trash postId={localPost.id} />
             </>
           )}
         </div>
@@ -102,9 +95,9 @@ const Post = ({ post, user, toggleDetails }) => {
               );
             }
           })}
-          <Rating
-          postId={localPost.id}
-          />
+        </div>
+        <div className=" lg:absolute bottom-0 right-0 p-1">
+          <Rating postId={localPost.id} />
         </div>
       </div>
     </div>

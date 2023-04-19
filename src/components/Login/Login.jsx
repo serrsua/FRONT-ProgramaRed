@@ -4,12 +4,9 @@ import { NavLink, useNavigate } from "react-router-dom";
 import axios from "axios";
 import LoginAuth0 from "./LoginAuth0";
 import Swal from "sweetalert2";
-import { returnUser } from "../../redux/actions";
-import { useDispatch } from "react-redux";
 
 const Login = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
 
   const [form, setForm] = useState({
     username: "",
@@ -40,7 +37,7 @@ const Login = () => {
         throw new Error("Debe completar los campos");
 
       let { data } = await axios.post("/login", form);
-      dispatch(returnUser(data));
+      localStorage.setItem("user",JSON.stringify(data.user));
 
       if (!data.user) throw new Error("El usuario no existe");
       if (data.user.isActive) {

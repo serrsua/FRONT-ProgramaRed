@@ -157,18 +157,3 @@ export const selectEditPost = (post) => {
     payload: post
   }
 }
-
-export const returnUser = (user) => {
-  console.log("User Action: ", user);
-  return {
-    type: LOGIN_USER,
-    payload: user
-  }
-}
-
-export const deleteReturnUser = () => {
-  return {
-    type: LOGIN_USER,
-    payload: {}
-  }
-}
