@@ -50,16 +50,17 @@ const Post = ({ post, user, toggleDetails }) => {
             localUser={userId}
           />
           {pathname === `/profile/${userId}` && localPost.id && (
+            <>
             <Edit post={localPost}/>
-          )}
-          {pathname === `/profile/${userId}` && localPost.id && (
             <Trash postId={localPost.id} />
+            </>
           )}
+          
           {Number(localPost.User?.id) === Number(userId) && (
+            <>
             <Edit post={localPost}/>
-          )}
-          {Number(localPost.User?.id) === Number(userId) && (
             <Trash postId={localPost.id} />
+            </>
           )}
         </div>
 
