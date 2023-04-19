@@ -40,27 +40,22 @@ const Comment = ({ comment, user, userId, id, postId, toggleDetails }) => {
         cancelButtonText: "Cancelar",
         confirmButtonText: 'Editar',
         showLoaderOnConfirm: true,
-        preConfirm: (event) => {
-          return axios.put(`/comments/${id}`, {comment: event})
-            .then(response => {
-              if (!response.ok) {
-                throw new Error(response.statusText)
-              }
-              return response.json()
-            })
-            .catch(error => {
-              Swal.showValidationMessage(
-                `Request failed: ${error}`
-              )
-            })
-        },
-        allowOutsideClick: () => !Swal.isLoading()
-      }).then((result) => {
-        if (result.isConfirmed) {
-          Swal.fire({
-            title: `${result.value.login}'s avatar`,
-            imageUrl: result.value.avatar_url
-          })
+        preConfirm: async (event) => {
+            try {
+                const { data } = await axios.put(`/comments/${id}`, {comment: event})
+                Swal.fire({
+                    icon: "success",
+                    title: "Comentario Editado",
+                    text: data,
+                  })
+            } catch (error) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "Hubo un error al editar el comentario",
+                  });
+            }
+          
         }
       })
   }
