@@ -131,7 +131,7 @@ const Login = () => {
               placeholder="Tu contraseña"
               value={form.password}
               onChange={handleInputs}
-              className={`border-gray-300 block w-full px-2 py-1 rounded-md shadow-sm focus:outline-none focus:ring-2 transition duration-150 ease-in-out ${
+              className={`border border-gray-300 bg-transparent block w-full px-2 py-1 rounded-md shadow-sm focus:outline-none focus:ring-2 transition duration-150 ease-in-out placeholder:text-slate-200 ${
                 errors.password
                   ? "focus:border-red-500 focus:ring-red-500"
                   : "focus:ring-green-500 focus:border-green-500"
