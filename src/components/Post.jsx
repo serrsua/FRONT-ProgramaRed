@@ -6,6 +6,7 @@ import person from "../images/person.png";
 import Fav from "./Fav";
 import Trash from "./Trash";
 import Edit from "./Edit";
+import Rating from "../views/RatingComponent";
 
 const Post = ({ post, user, toggleDetails }) => {
   const [localPost, setLocalPost] = useState({});
@@ -49,16 +50,17 @@ const Post = ({ post, user, toggleDetails }) => {
             localUser={userId}
           />
           {pathname === `/profile/${userId}` && localPost.id && (
+            <>
             <Edit post={localPost}/>
-          )}
-          {pathname === `/profile/${userId}` && localPost.id && (
             <Trash postId={localPost.id} />
+            </>
           )}
+          
           {Number(localPost.User?.id) === Number(userId) && (
+            <>
             <Edit post={localPost}/>
-          )}
-          {Number(localPost.User?.id) === Number(userId) && (
             <Trash postId={localPost.id} />
+            </>
           )}
         </div>
 
@@ -100,6 +102,9 @@ const Post = ({ post, user, toggleDetails }) => {
               );
             }
           })}
+          <Rating
+          postId={localPost.id}
+          />
         </div>
       </div>
     </div>
