@@ -1,8 +1,8 @@
-import { NavLink, useLocation,useNavigate } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import logo from "../images/logoNombre.png";
-import { clearFilters, deleteReturnUser } from "../redux/actions";
+import { clearFilters } from "../redux/actions";
 import { useDispatch } from "react-redux";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import Swal from "sweetalert2";
 
@@ -11,10 +11,7 @@ const NavBar = () => {
   const { logout } = useAuth0();
   const { pathname } = useLocation();
   const dispatch = useDispatch();
-  const [id, setId] = useState("");
-  const navigate = useNavigate();
 
-  
   let userId = localStorage.getItem("id");
   let isUserLogged;
 
@@ -29,7 +26,6 @@ const NavBar = () => {
     logout();
     isUserLogged = false;
     localStorage.clear();
-    dispatch(deleteReturnUser())
     
     Swal.fire({
       position: 'center',

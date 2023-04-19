@@ -14,7 +14,6 @@ import {
   GET_FAVORITES,
   SELECT_EDIT_POST,
   DELETE_USER,
-  LOGIN_USER,
 } from "./types";
 
 const initialState = {
@@ -32,7 +31,6 @@ const initialState = {
   message: "",
   category: "",
   editedPost: [],
-  loginUser: {},
 };
 
 const reducer = (state = initialState, { type, payload }) => {
@@ -111,11 +109,6 @@ const reducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         editedPost: payload,
-      };
-    case LOGIN_USER:
-      return {
-        ...state,
-        loginUser: payload,
       };
 
     default:

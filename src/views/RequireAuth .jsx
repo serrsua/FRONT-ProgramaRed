@@ -1,45 +1,40 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { Navigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Navigate, useLocation } from "react-router-dom";
 import Swal from "sweetalert2";
 
 const RequireAuth = ({ children }) => {
-  const user = useSelector(state => state.loginUser)
+  const { pathname } = useLocation();
  
-  const [isLogged, setIsLogged] = useState(false);
-  let username = localStorage.getItem("username");
-
-  useEffect(() => {
-    let username = localStorage.getItem("username");
-
-    if (username) setIsLogged(true);
-    else setIsLogged(false);
-  }, [isLogged, username]);
+  let user = JSON.parse(localStorage.getItem("user"))
 
   if (children.type.name === "DashboardAdmin") {
-    if (username && !user.isAdmin) {
-      Swal.fire({
-        icon: "error",
-        title: "Acceso prohibido",
-        text: "No deberias estar por aqui 🙄",
-        showConfirmButton: false,
-        timer: 2500,
-      });
-      return <Navigate to="/home" />;
-    }
-    else if(!isLogged && !user.isAdmin){
-      Swal.fire({
-        icon: "error",
-        title: "Acceso prohibido",
-        text: "No deberias estar por aqui 🙄",
-        showConfirmButton: false,
-        timer: 2500,
-      });
-      return <Navigate to="/" />;
+    //preguntar por la ruta
+    if (pathname !== "/" || pathname !== "/about" || pathname !== "signUp") {
+      if (!user?.username) {
+        Swal.fire({
+          icon: "error",
+          title: "Acceso prohibido",
+          text: "No deberias estar por aqui 🙄",
+          showConfirmButton: false,
+          timer: 2500,
+        });
+        return <Navigate to="/" />;
+      } //si existe el localStorage pregunta por isAdmin
+      else if(user?.username && !user?.isAdmin){
+        Swal.fire({
+          icon: "error",
+          title: "Acceso prohibido",
+          text: "No deberias estar por aqui 🙄",
+          showConfirmButton: false,
+          timer: 2500,
+        });
+        return <Navigate to="/home" />;
+      }
     }
   }
 
-  if (!username) {
+  if (!user?.username) {
     Swal.fire({
       icon: "error",
       title: "Debes registrarte o loguearte",
