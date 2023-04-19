@@ -11,8 +11,8 @@ const Rating = ({ postId }) => {
   let userId = localStorage.getItem("id");
 
   useEffect(() => {
-    getRatingByIdPost(postId);
-  }, []);
+    postId && getRatingByIdPost(postId);
+  }, [postId]);
 
   const getRatingByIdPost = async (postId) => {
     data = await axios.get(`/post/${postId}`);

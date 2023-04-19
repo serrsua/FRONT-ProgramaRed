@@ -7,6 +7,7 @@ import Trash from "./Trash";
 import Edit from "./Edit";
 import { useEffect } from "react";
 import Comments from "./Comments";
+import Rating from "../views/RatingComponent";
 
 const PostDetail = ({ toggleDetails }) => {
   const post = useSelector((state) => state.actualPost);
@@ -27,6 +28,8 @@ const PostDetail = ({ toggleDetails }) => {
 
   const userId = localUser;
   const postId = post.id;
+
+  console.log(post.id)
 
   return (
     <div className="DIV_POSTDETAIL fixed z-50 min-w-90% max-w-[90%] top-10 left-1/2 transform -translate-x-1/2 h-[90%] flex flex-col gap-2">
@@ -74,6 +77,9 @@ const PostDetail = ({ toggleDetails }) => {
                 {post?.User?.username}
               </NavLink>
               <p className="text-black text-xs font-medium">{`Creado el ${post.publishDate}`}</p>
+              <Rating
+                postId={post?.id}
+              />
             </div>
             <Fav
               userId={post?.User?.id}
