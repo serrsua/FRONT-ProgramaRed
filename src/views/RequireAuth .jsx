@@ -1,30 +1,33 @@
-import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { Navigate } from 'react-router-dom';
-import Swal from 'sweetalert2';
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { Navigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const RequireAuth = ({ children }) => {
+  // const user = useSelector(state => state.loginUser)
 
-    const user = useSelector(state => state.loginUser)
+  // console.log("userRUTAS: ", user);
+  const [isLogged, setIsLogged] = useState(false);
+  let username = localStorage.getItem("username");
 
-    console.log("userRUTAS: ", user);
+  useEffect(() => {
+    let username = localStorage.getItem("username");
 
+    if (username) setIsLogged(true);
+    else setIsLogged(false);
+  }, [isLogged, username]);
 
-  // si el usuario está autenticado, renderizar la ruta protegida
-  if (Object.keys(user).length === 0) {
+  if (!username) {
     Swal.fire({
-        icon: "error",
-        title: "Debes registrarte o loguearte",
-        showConfirmButton: false,
-        timer: 3000
-        
-      })
-      return <Navigate to="/" />    
+      icon: "error",
+      title: "Debes registrarte o loguearte",
+      showConfirmButton: false,
+      timer: 2500,
+    });
+    return <Navigate to="/" />;
   }
-  // si el usuario no está autenticado, redireccionar al inicio de sesión
-  
+
   return children;
 };
 
 export default RequireAuth;
-

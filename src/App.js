@@ -40,7 +40,7 @@ function App() {
         <Route path="/favorites" element={ <RequireAuth><Favorites toggleDetails={toggleDetails} /></RequireAuth> } />
         <Route path="/signUp" element={<SignUp />} />
         <Route path="/premium" element={<RequireAuth><Payment /></RequireAuth> } />
-        <Route path="/admin" element={ <DashboardAdmin />} />
+        <Route path="/admin" element={ <RequireAuth><DashboardAdmin /></RequireAuth>} />
         <Route path="/editPost" element={ <RequireAuth><EditPost/></RequireAuth> } />
       </Routes>
     </div>
