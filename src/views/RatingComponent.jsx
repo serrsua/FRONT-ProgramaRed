@@ -49,7 +49,7 @@ const Rating = ({ postId }) => {
     } catch (error) {
       getRatingByIdPost(postId);
       Swal.fire({
-        icon: "error",
+        icon: "warning",
         title: error.message,
         showConfirmButton: false,
         timer: 2000,

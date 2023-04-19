@@ -32,7 +32,7 @@ const initialState = {
   message: "",
   category: "",
   editedPost: [],
-  loginUser: {}
+  loginUser: {},
 };
 
 const reducer = (state = initialState, { type, payload }) => {
@@ -48,10 +48,10 @@ const reducer = (state = initialState, { type, payload }) => {
         actualUser: payload,
       };
     case DELETE_USER:
-      return{
+      return {
         ...state,
-        actualUser: payload
-      }
+        actualUser: payload,
+      };
     case CLEAR_DETAIL:
       return {
         ...state,
@@ -98,27 +98,25 @@ const reducer = (state = initialState, { type, payload }) => {
         filteredPosts: payload,
       };
     case SET_CATEGORY:
-      console.log(payload);
       return {
         ...state,
         category: payload,
       };
-     case GET_FAVORITES:
+    case GET_FAVORITES:
       return {
         ...state,
         favorites: payload,
-      }; 
-      case SELECT_EDIT_POST:
-        console.log("reducer", payload)
-        return{
-          ...state,
-          editedPost: payload
-        }
-      case LOGIN_USER:
-        return {
-          ...state,
-          loginUser: payload
-        }
+      };
+    case SELECT_EDIT_POST:
+      return {
+        ...state,
+        editedPost: payload,
+      };
+    case LOGIN_USER:
+      return {
+        ...state,
+        loginUser: payload,
+      };
 
     default:
       return { ...state };
