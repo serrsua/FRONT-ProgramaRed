@@ -1,6 +1,8 @@
 import { useState } from "react";
 import Swal from "sweetalert2";
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import { getPostById } from "../redux/actions";
 
 const CommentInput = ({ userId, postId }) => {
   const [comment, setComment] = useState("");
@@ -8,6 +10,8 @@ const CommentInput = ({ userId, postId }) => {
   const handleInput = (event) => {
     setComment(event.target.value);
   };
+
+  const dispatch = useDispatch()
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -18,14 +22,16 @@ const CommentInput = ({ userId, postId }) => {
         comment: comment,
       });
 
+      
       Swal.fire({
-        icon: "success",
-        title: "Comentario Enviado",
+          icon: "success",
+          title: "Comentario Enviado",
         text: data,
         timer: 1000,
         showConfirmButton: false,
-      });
-    } catch {
+    });
+    dispatch(getPostById(postId))
+} catch {
       Swal.fire({
         icon: "error",
         title: "Oops...",
