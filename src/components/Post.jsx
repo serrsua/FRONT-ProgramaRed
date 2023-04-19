@@ -6,6 +6,7 @@ import person from "../images/person.png";
 import Fav from "./Fav";
 import Trash from "./Trash";
 import Edit from "./Edit";
+import Rating from "../views/RatingComponent";
 
 const Post = ({ post, user, toggleDetails }) => {
   const [localPost, setLocalPost] = useState({});
@@ -87,6 +88,7 @@ const Post = ({ post, user, toggleDetails }) => {
                     #{tag.name}
                   </button>
                 </NavLink>
+                
               );
             } else {
               return (
@@ -100,6 +102,10 @@ const Post = ({ post, user, toggleDetails }) => {
               );
             }
           })}
+          <Rating
+          postId={localPost.id}
+          //localUser={userId} 
+          />
         </div>
       </div>
     </div>
