@@ -16,31 +16,15 @@ const Landing = () => {
         </h1>
        
       </div>
-      {/* Hero Section */}
-      <div className="fixed DIV_LANDING w-[80%]  grid p-4 bg-slate-400 bg-opacity-50 rounded-md lg:col-span-2 md:my-6 transition-all top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-      {/* <div className="relative DIV_LANDING  w-1/2 grid p-3 bg-slate-400 bg-opacity-50 rounded-md lg:col-span-2 md:my-6 transition-all"> */}
-        <div className="text-white p-2 ">
-          {/* <h1 className="text-4xl md:text-6xl font-bold mb-4">
-              ProgramaRed
-            </h1> */}
-          {/* <h2 className="text-4xl font-bold mb-4">
-             ¡Conecta con otros programadores!
-          </h2> */}
-          {/* <p className="text-lg md:text-xl">
-              Comparte conocimientos, colabora en proyectos y mucho más.
-            </p> */}
-        </div>
-        <div className="w-full bg-center bg-cover">
-          <div className="flex items-center justify-center h-full text-center"></div>
-        </div>
+      <div className="fixed DIV_LANDING w-[80%] flex flex-col p-4 justify-center bg-slate-400 bg-opacity-50 rounded-md lg:col-span-2 md:my-6 transition-all top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
 
         {/* Main Content */}
-        <div className=" max-w-3xl w-full px-4">
-          <div className=" md:flex-row items-center justify-center pt-4">
-          <h1 className=" absolute top-0 sm:text-ls left-0 w-full mt-2 text-center md:text-2xl  text-black font-md tracking-widest">
+        <div className=" max-w-3xl w-full px-4 self-center">
+          <div className="flex flex-col items-center justify-center pt-4">
+          <h1 className=" fixed top-0 sm:text-lg left-0 w-full my-3 text-center md:text-2xl  text-black font-medium tracking-widest">
           ¡Conecta con otros programadores!
         </h1>
-            <div className="flex flex-col items-center mb-4 md:mb-0">
+            <div className="flex flex-col items-center my-4">
               <img
                 src={logo}
                 alt="logo"
@@ -49,7 +33,7 @@ const Landing = () => {
             </div>
 
           {/* Login Section */}
-          <div className="DIV_LOADING-LOGIN max-w-sm w-full mx-auto">
+          <div className="DIV_LOADING-LOGIN max-w-sm w-full mx-auto relative top-3">
             <Login />
           </div>
           

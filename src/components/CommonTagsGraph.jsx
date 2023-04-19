@@ -3,7 +3,7 @@ import { BarChart, Card, Title } from "@tremor/react";
 
 export const CommonTagsGraph = ({ data }) => {
     return (
-        <Card className='mt-3'>
+        <Card className='w-full'>
             <Title>Tags mas usados</Title>
             <BarChart
                 categories={["Cantidad de posts por tag"]}

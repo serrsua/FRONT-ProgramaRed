@@ -5,7 +5,7 @@ import { SelectUsersBan } from './SelectUsersBan'
 
 export function UsersTable({ users, onSearch, onSearchBan, onDeleteUser, onUbanUser }) {
     return (
-        <Card className='mt-3'>
+        <Card className='gap-2 m-auto w-5/6'>
             <Grid numCols={2} numColsMd={1} className='flex items-start justify-start gap-3'>
                 <Col>
                     <SelectUsers onSearch={onSearch} />
@@ -17,7 +17,7 @@ export function UsersTable({ users, onSearch, onSearchBan, onDeleteUser, onUbanU
                     <Button color='blue' onClick={() => onSearch()}>Borrar filtros</Button>
                 </Col>
             </Grid>
-            <Table>
+            <Table className='mx-auto'>
                 <TableHead>
                     <TableRow>
                         <TableHeaderCell>Nombre</TableHeaderCell>

@@ -15,6 +15,7 @@ import About from "./views/About";
 import NotFound from "./components/NotFound";
 import DashboardAdmin from "./views/DashboardAdmin";
 import EditPost from "./views/EditPost/EditPost";
+import { ReportDetail } from "./views/ReportDetail";
 import RequireAuth from "./views/RequireAuth ";
 
 function App() {
