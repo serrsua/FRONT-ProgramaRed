@@ -35,9 +35,34 @@ const Post = ({ post, user, toggleDetails }) => {
           <div className="flex-1">
             <NavLink
               to={`/profile/${user?.id}`}
-              className="text-green-700 font-medium text-sm"
+              className=" flex gap-2 items-center text-green-700 font-medium text-sm"
             >
               {user?.username}
+              {
+                user?.isPremium ?
+                <svg
+                fill="none"
+                height="120"
+                viewBox="0 0 120 120"
+                width="120"
+                xmlns="http://www.w3.org/2000/svg"
+                className=" w-5 h-5"
+              >
+                <path
+                  d="m60 13.7 10.7 6.2h12.4l6.2 10.8 10.8 6.2v12.4l6.2 10.7-6.2 10.7v12.4l-10.8 6.2-6.2 10.8h-12.4l-10.7 6.2-10.7-6.2h-12.4l-6.2-10.8-10.8-6.2v-12.4l-6.2-10.7 6.2-10.7v-12.4l10.8-6.2 6.2-10.8h12.4z"
+                  fill="#647eff"
+                />
+                <path
+                  d="m60 93.9c-18.7 0-33.9-15.2-33.9-33.9s15.2-33.9 33.9-33.9 33.9 15.2 33.9 33.9-15.2 33.9-33.9 33.9zm0-64.9c-17.1 0-31 13.9-31 31s13.9 31 31 31 31-13.9 31-31-13.9-31-31-31z"
+                  fill="#fff"
+                />
+                <path
+                  d="m56.3 72.6-14.7-11.7c-1.2-1-1.4-2.7-.4-3.9s2.7-1.4 3.9-.4l12.6 10.1 16.8-18.8c1-1.1 2.8-1.2 3.9-.2s1.2 2.8.2 3.9l-18.5 20.7c-1 1.1-2.7 1.2-3.8.3z"
+                  fill="#ffd77a"
+                />
+              </svg>
+                : ""
+              }
             </NavLink>
             <p className="text-black text-xs font-medium">{`Creado el ${post.publishDate}`}</p>
           </div>

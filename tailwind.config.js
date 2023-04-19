@@ -11,11 +11,16 @@ module.exports = {
         appear: {
           '0%': { transform: 'translateY(-100%)' },
           '100%': { transform: 'translateY(0)' },
-        }
+        },
+        'pulse-border': {
+          '0%, 100%': { borderColor: 'rgba(245, 158, 11, 0.5)' },
+          '50%': { borderColor: 'rgba(245, 158, 11, 1)' },
+        },
       },
       animation: {
         'spin-slow': 'spin 25s linear infinite',
-        "appear-top": "appear 1s"
+        "appear-top": "appear 1s",
+        'pulse-border': 'pulse-border 2s cubic-bezier(0.4, 0, 0.6, 1) infinite'
       },
       gridTemplateColumns: {
         desktop_lg: "250px 1fr",
