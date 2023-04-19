@@ -39,6 +39,7 @@ const LoginAuth0 = () => {
           let { data } = await axios(`/user/username/${user.nickname}`);
           localStorage.setItem("username", JSON.stringify(data[0].username));
           localStorage.setItem("id", JSON.stringify(data[0].id));
+          localStorage.setItem("user",JSON.stringify(data[0]));
         
             if (!data[0].isActive) {
                 await Swal.fire({
