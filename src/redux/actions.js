@@ -15,7 +15,8 @@ import {
   SET_CATEGORY,
   GET_FAVORITES,
   SELECT_EDIT_POST,
-  DELETE_USER
+  DELETE_USER,
+  LOGIN_USER
 } from "./types";
 
 export const getUsers = () => {
@@ -157,6 +158,17 @@ export const selectEditPost = (post) => {
   }
 }
 
+export const returnUser = (user) => {
+  console.log("User Action: ", user);
+  return {
+    type: LOGIN_USER,
+    payload: user
+  }
+}
 
-
-
+export const deleteReturnUser = () => {
+  return {
+    type: LOGIN_USER,
+    payload: {}
+  }
+}

@@ -1,6 +1,6 @@
 import { NavLink, useLocation,useNavigate } from "react-router-dom";
 import logo from "../images/logoNombre.png";
-import { clearFilters } from "../redux/actions";
+import { clearFilters, deleteReturnUser } from "../redux/actions";
 import { useDispatch } from "react-redux";
 import { useState, useEffect } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
@@ -29,6 +29,7 @@ const NavBar = () => {
     logout();
     isUserLogged = false;
     localStorage.clear();
+    dispatch(deleteReturnUser())
     
     Swal.fire({
       position: 'center',
