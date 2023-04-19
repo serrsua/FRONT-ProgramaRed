@@ -40,9 +40,6 @@ const Login = () => {
         throw new Error("Debe completar los campos");
 
       let { data } = await axios.post("/login", form);
-
-      console.log("DATA LOGIN",data);
-
       dispatch(returnUser(data));
 
       if (!data.user) throw new Error("El usuario no existe");
@@ -76,9 +73,9 @@ const Login = () => {
       Swal.fire({
         icon: "error",
         title: "Oops...",
-        text: error.message,
+        text: error.response.data,
         showConfirmButton: false,
-        timer: 1400,
+        timer: 1600,
       });
     }
   };
@@ -97,13 +94,13 @@ const Login = () => {
             </NavLink>
           </p>
         </div>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className="flex flex-col gap-2">
           <div>
             <label
               htmlFor="username"
               className="block text-sm font-medium text-gray-700 mb-1"
             >
-              Nombre de usuario
+              Nombre de usuario:
             </label>
             <input
               type="text"
@@ -111,7 +108,7 @@ const Login = () => {
               placeholder="Tu nombre de usuario"
               value={form.username}
               onChange={handleInputs}
-              className={`border border-gray-300 bg-transparent block w-full px-2 py-1 rounded-md shadow-sm focus:outline-none focus:ring-2 transition duration-150 ease-in-out ${
+              className={`border border-gray-300 bg-transparent block w-full px-2 py-1 rounded-md shadow-sm focus:outline-none focus:ring-2 transition duration-150 ease-in-out placeholder:text-slate-200 ${
                 errors.username
                   ? "focus:border-red-500 focus:ring-red-500"
                   : "focus:ring-green-500 focus:border-green-500"
@@ -128,7 +125,7 @@ const Login = () => {
               htmlFor="password"
               className="block text-sm font-medium text-gray-700 mb-1"
             >
-              Contraseña
+              Contraseña:
             </label>
             <input
               type="password"
