@@ -7,7 +7,12 @@ const RequireAuth = ({ children }) => {
   const { pathname } = useLocation();
   const { user, isAuthenticated } = useAuth0();
  
-  let userLogged = !isAuthenticated ? JSON.parse(localStorage.getItem("user")) : {...user, isAdmin: false}
+  console.log("isAuthenticated", isAuthenticated);
+  console.log("user", user);
+
+  let userLogged = !isAuthenticated ? JSON.parse(localStorage.getItem("user")) : {...user, isAdmin: false, username: user.nickname}
+
+  console.log("userLogged", userLogged);
 
   if (children.type.name === "DashboardAdmin") {
     //preguntar por la ruta
