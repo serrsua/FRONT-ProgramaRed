@@ -4,7 +4,7 @@ import React, { useState } from 'react'
 export function SelectUsersBan({ onSearch }) {
     const [isActive, setIsActive] = useState(true)
     return (
-        <Grid numCols={3} className='mx-2 flex justify-center'>
+        <Grid numCols={3} className='mx-2 my-2 flex justify-center'>
             <Col numColSpan={2} className='flex flex-grow'>
                 <select
                     style={{ width: '100%' }}
