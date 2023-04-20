@@ -7,12 +7,14 @@ import Fav from "./Fav";
 import Trash from "./Trash";
 import Edit from "./Edit";
 import Rating from "../views/RatingComponent";
+import Report from "./Report";
 
 const Post = ({ post, user, toggleDetails }) => {
   const [localPost, setLocalPost] = useState({});
   let userId = localStorage.getItem("id");
   const { pathname } = useLocation();
 
+  const [reported, setReported] = useState(false);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -38,31 +40,31 @@ const Post = ({ post, user, toggleDetails }) => {
               className=" flex gap-2 items-center text-green-700 font-medium text-sm"
             >
               {user?.username}
-              {
-                user?.isPremium ?
+              {user?.isPremium ? (
                 <svg
-                fill="none"
-                height="120"
-                viewBox="0 0 120 120"
-                width="120"
-                xmlns="http://www.w3.org/2000/svg"
-                className=" w-5 h-5"
-              >
-                <path
-                  d="m60 13.7 10.7 6.2h12.4l6.2 10.8 10.8 6.2v12.4l6.2 10.7-6.2 10.7v12.4l-10.8 6.2-6.2 10.8h-12.4l-10.7 6.2-10.7-6.2h-12.4l-6.2-10.8-10.8-6.2v-12.4l-6.2-10.7 6.2-10.7v-12.4l10.8-6.2 6.2-10.8h12.4z"
-                  fill="#647eff"
-                />
-                <path
-                  d="m60 93.9c-18.7 0-33.9-15.2-33.9-33.9s15.2-33.9 33.9-33.9 33.9 15.2 33.9 33.9-15.2 33.9-33.9 33.9zm0-64.9c-17.1 0-31 13.9-31 31s13.9 31 31 31 31-13.9 31-31-13.9-31-31-31z"
-                  fill="#fff"
-                />
-                <path
-                  d="m56.3 72.6-14.7-11.7c-1.2-1-1.4-2.7-.4-3.9s2.7-1.4 3.9-.4l12.6 10.1 16.8-18.8c1-1.1 2.8-1.2 3.9-.2s1.2 2.8.2 3.9l-18.5 20.7c-1 1.1-2.7 1.2-3.8.3z"
-                  fill="#ffd77a"
-                />
-              </svg>
-                : ""
-              }
+                  fill="none"
+                  height="120"
+                  viewBox="0 0 120 120"
+                  width="120"
+                  xmlns="http://www.w3.org/2000/svg"
+                  className=" w-5 h-5"
+                >
+                  <path
+                    d="m60 13.7 10.7 6.2h12.4l6.2 10.8 10.8 6.2v12.4l6.2 10.7-6.2 10.7v12.4l-10.8 6.2-6.2 10.8h-12.4l-10.7 6.2-10.7-6.2h-12.4l-6.2-10.8-10.8-6.2v-12.4l-6.2-10.7 6.2-10.7v-12.4l10.8-6.2 6.2-10.8h12.4z"
+                    fill="#647eff"
+                  />
+                  <path
+                    d="m60 93.9c-18.7 0-33.9-15.2-33.9-33.9s15.2-33.9 33.9-33.9 33.9 15.2 33.9 33.9-15.2 33.9-33.9 33.9zm0-64.9c-17.1 0-31 13.9-31 31s13.9 31 31 31 31-13.9 31-31-13.9-31-31-31z"
+                    fill="#fff"
+                  />
+                  <path
+                    d="m56.3 72.6-14.7-11.7c-1.2-1-1.4-2.7-.4-3.9s2.7-1.4 3.9-.4l12.6 10.1 16.8-18.8c1-1.1 2.8-1.2 3.9-.2s1.2 2.8.2 3.9l-18.5 20.7c-1 1.1-2.7 1.2-3.8.3z"
+                    fill="#ffd77a"
+                  />
+                </svg>
+              ) : (
+                ""
+              )}
             </NavLink>
             <p className="text-black text-xs font-medium">{`Creado el ${post.publishDate}`}</p>
           </div>
@@ -79,6 +81,63 @@ const Post = ({ post, user, toggleDetails }) => {
               <Edit post={localPost} />
               <Trash postId={localPost.id} />
             </>
+          )}
+        </div>
+
+        {/* REPORT */}
+
+        <div>
+          {Number(localPost?.User?.id) !== Number(localStorage.getItem("id")) &&
+          pathname !== `/profile/${userId}` ? (
+            <>
+              <button onClick={() => setReported(true)} type="button">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth="1.5"
+                  stroke="currentColor"
+                  className="w-6 h-6"
+                  title="Reportar"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"
+                  />
+                </svg>
+              </button>
+              {reported && (
+                <Report
+                  onCancel={() => setReported(false)}
+                  postId={localPost?.id}
+                  type={"post"}
+                />
+              )}
+              {reported && (
+                <span
+                  className=" cursor-pointer"
+                  onClick={() => setReported(false)}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth="1.5"
+                    stroke="currentColor"
+                    className="w-6 h-6 hover:scale-125"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                    />
+                  </svg>
+                </span>
+              )}
+            </>
+          ) : (
+            ""
           )}
         </div>
 
