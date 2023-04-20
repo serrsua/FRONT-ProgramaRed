@@ -10,7 +10,7 @@ const Edit = ({ post }) => {
   };
 
   return (
-    <div onClick={clickHandler}>
+    <div onClick={clickHandler} className="hover:scale-125" title="Editar Post">
       <NavLink to="/editPost">
         <svg
           xmlns="http://www.w3.org/2000/svg"

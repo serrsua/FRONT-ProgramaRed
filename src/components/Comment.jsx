@@ -80,7 +80,7 @@ const Comment = ({ comment, user, userId, id, postId, toggleDetails }) => {
           to={`/profile/${userId}`}
         >
           {user.username}
-        </NavLink>{" "}
+        </NavLink>
         dice:
       </p>
       <p className="text-amber-600 text-sm font-medium">{comment}</p>
@@ -147,6 +147,7 @@ const Comment = ({ comment, user, userId, id, postId, toggleDetails }) => {
             </button>
             {reported && (
               <Report
+                setReported={setReported}
                 onCancel={() => setReported(false)}
                 commentId={id}
                 type={"comment"}
