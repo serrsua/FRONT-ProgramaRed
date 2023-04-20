@@ -46,6 +46,9 @@ const Rating = ({ postId }) => {
         showConfirmButton: false,
         timer: 1600,
       });
+      setTimeout(() => {
+        window.location.reload()
+      }, 1000);
     } catch (error) {
       getRatingByIdPost(postId);
       Swal.fire({

@@ -51,8 +51,6 @@ const Profile = ({ toggleDetails }) => {
     setPosts(user.Posts);
   }, [user]);
 
-  console.log("postssss: ", posts);
-
   const handleInputChange = (event) => {
     const property = event.target.name;
     const value = event.target.value;
@@ -171,7 +169,7 @@ const Profile = ({ toggleDetails }) => {
     }
   };
 
-  const orderAlph = (e) => {
+  const order = (e) => {
     if (e.target.value === "Más antiguo") {
       setPosts(
         [...posts].sort(
@@ -185,6 +183,12 @@ const Profile = ({ toggleDetails }) => {
           (a, b) => new Date(b.publishDate) - new Date(a.publishDate)
         )
       );
+    }
+    if (e.target.value === "Menor rating") {
+      setPosts([...posts].sort((a, b) => a.AvgRating - b.AvgRating));
+    }
+    if (e.target.value === "Mayor rating") {
+      setPosts([...posts].sort((a, b) => b.AvgRating - a.AvgRating));
     }
     if (e.target.value === "A-Z") {
       setPosts(
@@ -218,8 +222,6 @@ const Profile = ({ toggleDetails }) => {
     }
   };
 
-  console.log("LINK: ", links);
-
   return (
     <>
       {user.username ? (
@@ -234,8 +236,15 @@ const Profile = ({ toggleDetails }) => {
                     className="rounded-full w-full object-cover object-center border-2 border-green-500"
                     referrerPolicy="no-referrer"
                   />
-                  <button title="Reportar" className="mt-3 flex flex-col items-center" onClick={() => setReported(true)} type="button">
-                    <span className=" font-medium text-red-400">Reportar imagen</span>
+                  <button
+                    title="Reportar"
+                    className="mt-3 flex flex-col items-center"
+                    onClick={() => setReported(true)}
+                    type="button"
+                  >
+                    <span className=" font-medium text-red-400">
+                      Reportar imagen
+                    </span>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
@@ -676,7 +685,7 @@ const Profile = ({ toggleDetails }) => {
                     className="rounded-lg shadow-md border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none text-gray-600 font-medium py-2 px-4"
                     name=""
                     id=""
-                    onChange={orderAlph}
+                    onChange={order}
                   >
                     <option value="" hidden>
                       Ordenar
@@ -684,6 +693,10 @@ const Profile = ({ toggleDetails }) => {
                     <optgroup label="Fecha">
                       <option value="Más reciente">Más reciente</option>
                       <option value="Más antiguo">Más antiguo</option>
+                    </optgroup>
+                    <optgroup label="Rating">
+                      <option value="Mayor rating">Mayor rating</option>
+                      <option value="Menor rating">Menor rating</option>
                     </optgroup>
                     <optgroup label="Título">
                       <option value="A-Z">A-Z</option>
@@ -712,15 +725,8 @@ const Profile = ({ toggleDetails }) => {
         </div>
       ) : (
         <div className="DIV_PROFILE flex flex-col w-full relative">
-          <Loading />
+          <NotFound />
         </div>
-      )}
-      {!user.username ? (
-        <div className="DIV_PROFILE flex flex-col w-full relative">
-          <Loading />
-        </div>
-      ) : (
-        ""
       )}
     </>
   );
