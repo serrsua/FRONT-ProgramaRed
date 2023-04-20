@@ -7,7 +7,7 @@ export function CountUsersCard({ countUsers, onSearch }) {
         <Card className='w-full'>
             <Title>Usuarios del sitio</Title>
             <Subtitle>{`${countUsers} usuarios`}</Subtitle>
-            <ProgressBar percentageValue={countUsers} />
+            <ProgressBar className='mt-1' percentageValue={countUsers} />
             <SelectUsers onSearch={onSearch} />
         </Card>
     )

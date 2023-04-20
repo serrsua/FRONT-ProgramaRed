@@ -4,7 +4,7 @@ import React, { useState } from 'react'
 export function SelectUsers({ onSearch }) {
     const [isPremium, setIsPremium] = useState(true)
     return (
-        <Grid numCols={3} className='mx-2'>
+        <Grid numCols={3} className='mx-2 mt-2'>
             <Col numColSpan={2} className='flex flex-grow'>
                 <select
                     className='w-full'
