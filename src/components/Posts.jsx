@@ -10,6 +10,8 @@ const Posts = ({ toggleDetails }) => {
 
   const [posts, setPosts] = useState([]);
 
+  console.log("POSTS: ", posts);
+
   useEffect(() => {
     if (!filteredPosts.length) setPosts(allPosts);
     else setPosts(filteredPosts);
@@ -21,7 +23,7 @@ const Posts = ({ toggleDetails }) => {
     else setPosts(allPosts);
   }, [filteredPosts]);
 
-  const orderAlph = (e) => {
+  const order = (e) => {
     if (e.target.value === "Más antiguo") {
       setPosts(
         [...posts].sort(
@@ -34,6 +36,16 @@ const Posts = ({ toggleDetails }) => {
         [...posts].sort(
           (a, b) => new Date(b.publishDate) - new Date(a.publishDate)
         )
+      );
+    }
+    if (e.target.value === "Menor rating") {
+      setPosts(
+        [...posts].sort((a, b) => a.AvgRating - b.AvgRating)
+      );
+    }
+    if (e.target.value === "Mayor rating") {
+      setPosts(
+        [...posts].sort((a, b) => b.AvgRating - a.AvgRating)
       );
     }
     if (e.target.value === "A-Z") {
@@ -75,7 +87,7 @@ const Posts = ({ toggleDetails }) => {
           className="rounded-lg shadow-md border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none text-gray-600 font-medium py-2 px-4"
           name=""
           id=""
-          onChange={orderAlph}
+          onChange={order}
         >
           <option className=" text-center" value="" hidden>
             Ordenar
@@ -83,6 +95,10 @@ const Posts = ({ toggleDetails }) => {
           <optgroup label="Fecha">
             <option value="Más reciente">Más reciente</option>
             <option value="Más antiguo">Más antiguo</option>
+          </optgroup>
+          <optgroup label="Rating">
+            <option value="Mayor rating">Mayor rating</option>
+            <option value="Menor rating">Menor rating</option>
           </optgroup>
           <optgroup label="Título">
             <option value="A-Z">A-Z</option>
