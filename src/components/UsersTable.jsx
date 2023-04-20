@@ -1,17 +1,40 @@
 import { Badge, BadgeDelta, Button, Card, Col, Grid, Table, TableBody, TableCell, TableHead, TableHeaderCell, TableRow, Text } from '@tremor/react'
-import React from 'react'
+import React, { useState } from 'react'
 import { SelectUsers } from './SelectUsers'
 import { SelectUsersBan } from './SelectUsersBan'
+import { Pagination } from './Pagination';
 
 export function UsersTable({ users, onSearch, onSearchBan, onDeleteUser, onUbanUser }) {
+    const [currentPage, setCurrentPage] = useState(0);
+    const [itemsPerPage] = useState(5);
+    const currentData = users?.slice(currentPage, currentPage + itemsPerPage);
+
+    // Change page
+    const paginateFront = () => {
+        if (currentPage + itemsPerPage < users?.length) {
+            setCurrentPage((currentPage) => currentPage + itemsPerPage);
+        }
+    }
+
+    const paginateBack = () => {
+        if (currentPage > 0) {
+            setCurrentPage((currentPage) => currentPage - itemsPerPage);
+        }
+    }
     return (
-        <Card className='gap-2 m-auto w-5/6'>
+        <Card className='gap-2 m-auto w-5/6 my-3'>
             <Grid numCols={2} numColsMd={1} className='flex items-start justify-start gap-3'>
                 <Col>
-                    <SelectUsers onSearch={onSearch} />
+                    <SelectUsers onSearch={(search) => {
+                        setCurrentPage(0)
+                        onSearch(search)
+                    }} />
                 </Col>
                 <Col>
-                    <SelectUsersBan onSearch={onSearchBan} />
+                    <SelectUsersBan onSearch={(search) => {
+                        setCurrentPage(0)
+                        onSearchBan(search)
+                    }} />
                 </Col>
                 <Col>
                     <Button color='blue' onClick={() => onSearch()}>Borrar filtros</Button>
@@ -29,7 +52,7 @@ export function UsersTable({ users, onSearch, onSearchBan, onDeleteUser, onUbanU
                 </TableHead>
                 <TableBody>
                     {
-                        users && users?.length > 0 ? users.map(u => (
+                        currentData && currentData?.length > 0 ? currentData.map(u => (
                             <TableRow key={u.id}>
                                 <TableCell>{u.username}</TableCell>
                                 <TableCell>{u.email}</TableCell>
@@ -72,6 +95,9 @@ export function UsersTable({ users, onSearch, onSearchBan, onDeleteUser, onUbanU
                     }
                 </TableBody>
             </Table>
+            <Pagination
+                paginateBack={paginateBack}
+                paginateFront={paginateFront} />
         </Card>
     )
 }

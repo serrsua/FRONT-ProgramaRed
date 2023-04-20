@@ -1,12 +1,33 @@
 import { Button, Card, Table, TableBody, TableCell, TableHead, TableHeaderCell, TableRow } from '@tremor/react';
-import React from 'react'
+import React, { useState } from 'react'
 import { SearchReport } from './SearchReport';
 import { Link } from 'react-router-dom';
+import { Pagination } from './Pagination';
 
 export function ReportsTable({ reports, onSearch }) {
+    const [currentPage, setCurrentPage] = useState(0);
+    const [itemsPerPage] = useState(5);
+    const currentData = reports?.slice(currentPage, currentPage + itemsPerPage);
+
+    // Change page
+    const paginateFront = () => {
+        if (currentPage + itemsPerPage < reports?.length) {
+            setCurrentPage((currentPage) => currentPage + itemsPerPage);
+        }
+    }
+
+    const paginateBack = () => {
+        if (currentPage > 0) {
+            setCurrentPage((currentPage) => currentPage - itemsPerPage);
+        }
+    }
+
     return (
-        <Card className='gap-2 m-auto w-5/6'>
-            <SearchReport onSearch={onSearch} />
+        <Card className='gap-2 my-3 mx-auto w-5/6'>
+            <SearchReport onSearch={(search) => {
+                setCurrentPage(0)
+                onSearch(search)
+            }} />
             <Table>
                 <TableHead>
                     <TableRow>
@@ -19,7 +40,7 @@ export function ReportsTable({ reports, onSearch }) {
                 </TableHead>
                 <TableBody>
                     {
-                        reports && reports.map(r => (
+                        currentData && currentData?.map(r => (
                             <TableRow key={r.id}>
                                 <TableCell>
                                     {
@@ -44,6 +65,9 @@ export function ReportsTable({ reports, onSearch }) {
                     }
                 </TableBody>
             </Table>
+            <Pagination
+                paginateBack={paginateBack}
+                paginateFront={paginateFront} />
         </Card>
     )
 }
