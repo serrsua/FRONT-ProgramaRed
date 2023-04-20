@@ -13366,6 +13366,10 @@ video {
   background-color: rgb(24 24 27 / var(--tw-bg-opacity));
 }
 
+.hover\:bg-veryLigthGreen:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(229 217 182 / var(--tw-bg-opacity));
+
 .hover\:p-3:hover {
   padding: 0.75rem;
 }

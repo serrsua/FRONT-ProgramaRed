@@ -23,7 +23,7 @@ const Post = ({ post, user, toggleDetails }) => {
 
   return localPost.isActive ? (
     <div className="DIV_POST px-4 py-1">
-      <div className=" bg-greenGray rounded-lg p-4 shadow-shadowBlack relative">
+      <div className=" bg-greenGray rounded-lg p-4 shadow-shadowBlack relative transition-all hover:bg-neutral-200">
         <div className="flex items-center mb-3">
           <div className="bg-green-300 w-12 h-12 rounded-full mr-3">
             <NavLink to={`/profile/${user?.id}`}>
@@ -82,15 +82,16 @@ const Post = ({ post, user, toggleDetails }) => {
               <Trash postId={localPost.id} />
             </>
           )}
-        </div>
 
-        {/* REPORT */}
-
-        <div>
           {Number(localPost?.User?.id) !== Number(localStorage.getItem("id")) &&
           pathname !== `/profile/${userId}` ? (
             <>
-              <button onClick={() => setReported(true)} type="button">
+              <button
+                onClick={() => setReported(true)}
+                type="button"
+                title="Reportar"
+                className="hover:scale-125"
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -98,7 +99,6 @@ const Post = ({ post, user, toggleDetails }) => {
                   strokeWidth="1.5"
                   stroke="currentColor"
                   className="w-6 h-6"
-                  title="Reportar"
                 >
                   <path
                     strokeLinecap="round"
@@ -109,6 +109,7 @@ const Post = ({ post, user, toggleDetails }) => {
               </button>
               {reported && (
                 <Report
+                  setReported={setReported}
                   onCancel={() => setReported(false)}
                   postId={localPost?.id}
                   type={"post"}
@@ -142,16 +143,16 @@ const Post = ({ post, user, toggleDetails }) => {
         </div>
 
         <button
-          className="text-green-700 text-base mb-3 line-clamp-4 text-left"
+          className="text-green-700 text-base mb-3 line-clamp-4 text-left hover:text-green-800"
           onClick={() => {
             toggleDetails();
             dispatch(getPostById(localPost.id));
           }}
         >
-          <h2 className="text-green-800 font-bold text-lg mb-2">
+          <h2 className="text-green-700 font-bold text-lg mb-2">
             {localPost.title}
           </h2>
-          <p>{localPost.description}</p>
+          <p className="font-normal">{localPost.description}</p>
         </button>
 
         <div className="flex flex-wrap gap-x-2">
@@ -172,7 +173,7 @@ const Post = ({ post, user, toggleDetails }) => {
                 <button
                   onClick={() => dispatch(getPostByTag(tag.name))}
                   key={i}
-                  className=" text-sm text-amber-700 font-medium"
+                  className=" text-sm text-amber-700 font-medium hover:text-amber-500"
                 >
                   #{tag.name}
                 </button>
@@ -180,7 +181,7 @@ const Post = ({ post, user, toggleDetails }) => {
             }
           })}
         </div>
-        <div className=" lg:absolute bottom-0 right-0 p-1">
+        <div className="lg:absolute bottom-0 right-0 p-1">
           <Rating postId={localPost.id} />
         </div>
       </div>
