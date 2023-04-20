@@ -33,6 +33,7 @@ const SearchBar = () => {
       let query = queryCreator(search, category);
       dispatch(getPostByQuery(query));
     }
+    setSearch("")
   };
 
   const changeHandler = (e) => {

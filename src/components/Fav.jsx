@@ -56,7 +56,7 @@ const Fav = ({ postId, localUser }) => {
 
   return (
     <div>
-      <div onClick={clicked ? deleteFavorite : favoriteHandler}>
+      <div onClick={clicked ? deleteFavorite : favoriteHandler} title="Añadir Favorito" className="cursor-pointer hover:scale-125">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill={!clicked ? "none" : "currentColor"}

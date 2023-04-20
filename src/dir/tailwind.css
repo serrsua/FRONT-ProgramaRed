@@ -1577,6 +1577,10 @@ video {
   height: 40%;
 }
 
+.h-\[50\%\] {
+  height: 50%;
+}
+
 .h-\[50px\] {
   height: 50px;
 }
@@ -1603,10 +1607,6 @@ video {
 
 .h-screen {
   height: 100vh;
-}
-
-.h-\[50\%\] {
-  height: 50%;
 }
 
 .max-h-72 {
@@ -1723,6 +1723,10 @@ video {
   width: 250px;
 }
 
+.w-\[60\%\] {
+  width: 60%;
+}
+
 .w-\[80\%\] {
   width: 80%;
 }
@@ -1742,14 +1746,6 @@ video {
 
 .w-screen {
   width: 100vw;
-}
-
-.w-60 {
-  width: 15rem;
-}
-
-.w-\[60\%\] {
-  width: 60%;
 }
 
 .min-w-90\% {

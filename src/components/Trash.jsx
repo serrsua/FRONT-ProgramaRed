@@ -26,7 +26,7 @@ const Trash = ({ postId }) => {
   };
 
   return (
-    <div onClick={deletePost}>
+    <div onClick={deletePost} className="hover:scale-125">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
