@@ -46,12 +46,12 @@ export function ReportsTable({ reports, onSearch }) {
                                     {
                                         r.username
                                             ? <span>{r.username}</span>
-                                            : r.Post ? <span>{r.Post.title}</span>
-                                                : <span>{r.Comment.comment}</span>
+                                            : r.Post ? <span>{r.Post?.title}</span>
+                                                : <span>{r.Comment?.comment}</span>
                                     }
                                 </TableCell>
                                 <TableCell>{r.description}</TableCell>
-                                <TableCell>{r.User.username}</TableCell>
+                                <TableCell>{r.User?.username}</TableCell>
                                 <TableCell>{new Date(r.createdAt).toLocaleString("es-AR")}</TableCell>
                                 <TableCell>
                                     <Button>
