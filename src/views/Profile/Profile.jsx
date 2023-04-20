@@ -234,11 +234,26 @@ const Profile = ({ toggleDetails }) => {
                     className="rounded-full w-full object-cover object-center border-2 border-green-500"
                     referrerPolicy="no-referrer"
                   />
-                  <button onClick={() => setReported(true)} type="button">
-                    Reportar
+                  <button title="Reportar" className="mt-3 flex flex-col items-center" onClick={() => setReported(true)} type="button">
+                    <span className=" font-medium text-red-400">Reportar imagen</span>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth="1.5"
+                      stroke="#F38116"
+                      className="w-8 h-8 hover:scale-125"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"
+                      />
+                    </svg>
                   </button>
                   {reported && (
                     <Report
+                      setReported={setReported}
                       onCancel={() => setReported(false)}
                       username={user.username}
                       type={"user"}
@@ -258,7 +273,11 @@ const Profile = ({ toggleDetails }) => {
                   <img
                     src={user.profileImage ? user.profileImage : person}
                     alt="ProfilePhoto"
-                    className={`rounded-full w-full object-cover object-center border-2  ${user.isPremium ? " border-[5px] border-orange-200 animate-pulse-border " : " border-green-500"}`}
+                    className={`rounded-full w-full object-cover object-center border-2  ${
+                      user.isPremium
+                        ? " border-[5px] border-orange-200 animate-pulse-border "
+                        : " border-green-500"
+                    }`}
                     referrerPolicy="no-referrer"
                   />
                   <div className="p-2 absolute bottom-[-20px] self-center font-medium rounded-md bg-ligthGreen transition-all duration-500 hover:bg-mediumGreen hover:scale-110">

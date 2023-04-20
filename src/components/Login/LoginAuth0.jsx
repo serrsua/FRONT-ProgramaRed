@@ -7,7 +7,6 @@ import axios from "axios";
 const LoginAuth0 = () => {
   const navigate = useNavigate();
   const { user, loginWithPopup, isAuthenticated,getAccessTokenSilently,logout } = useAuth0();
-  console.log(isAuthenticated);
 
   const handleClick = (connection) => {
     loginWithPopup({
@@ -30,7 +29,6 @@ const LoginAuth0 = () => {
     async function fetchData() {
     
     if (isAuthenticated){
-
           const token = await getAccessTokenSilently();
           const responseUserCreate = await axios.get("/usercreate", {
             headers: {
@@ -44,7 +42,6 @@ const LoginAuth0 = () => {
           localStorage.setItem("user",JSON.stringify(data[0]));
         
             if (!data[0].isActive) {
-                console.log(data[0].isActive)
                 await Swal.fire({
                   position: 'center',
                   icon: 'error',

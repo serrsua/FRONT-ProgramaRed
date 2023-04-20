@@ -85,7 +85,7 @@ const Login = () => {
             Inicia sesión con tu cuenta
           </h2>
           <p className="text-center text-xs">
-            No tienes una cuenta? Regístrate{" "}
+            No tienes una cuenta? Regístrate
             <NavLink to="/signUp" className="text-blue-600">
               aquí
             </NavLink>
