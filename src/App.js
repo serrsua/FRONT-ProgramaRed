@@ -33,14 +33,15 @@ function App() {
         <Route path="*" element={<NotFound />} />
         <Route path="/" element={<Landing />} />
         <Route path="/about" element={<About />} />
-        <Route path="/home" element={ <RequireAuth><Home toggleDetails={toggleDetails} /></RequireAuth>} />
+        <Route path="/home" element={<RequireAuth><Home toggleDetails={toggleDetails} /></RequireAuth>} />
         <Route path="/createPost" element={<RequireAuth ><CreatePost /></RequireAuth>} />
-        <Route path="/profile/:id" element={<RequireAuth ><Profile toggleDetails={toggleDetails} /></RequireAuth>  } />
-        <Route path="/favorites" element={ <RequireAuth ><Favorites toggleDetails={toggleDetails} /></RequireAuth> } />
+        <Route path="/profile/:id" element={<RequireAuth ><Profile toggleDetails={toggleDetails} /></RequireAuth>} />
+        <Route path="/favorites" element={<RequireAuth ><Favorites toggleDetails={toggleDetails} /></RequireAuth>} />
         <Route path="/signUp" element={<SignUp />} />
-        <Route path="/premium" element={<RequireAuth ><Payment /></RequireAuth> } />
-        <Route path="/admin" element={ <RequireAuth><DashboardAdmin /></RequireAuth>} />
-        <Route path="/editPost" element={ <RequireAuth ><EditPost/></RequireAuth> } />
+        <Route path="/premium" element={<RequireAuth ><Payment /></RequireAuth>} />
+        <Route path="/admin" element={<RequireAuth><DashboardAdmin /></RequireAuth>} />
+        <Route path="/editPost" element={<RequireAuth ><EditPost /></RequireAuth>} />
+        <Route path="/admin/reports/:id" element={<RequireAuth><ReportDetail /></RequireAuth>} />
       </Routes>
     </div>
   );
